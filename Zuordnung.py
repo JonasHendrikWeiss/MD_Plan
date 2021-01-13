@@ -17,6 +17,12 @@ class ChurchService:
         pass
 
 
+def allocation_md(current_churchservice):
+    for x in range(0, current_churchservice.count):
+        random_md = random.choice(ListMD)
+        current_churchservice.ListServingMD.append(random_md.name)
+
+
 MD1 = ChurchServants("Messdiener1")
 MD2 = ChurchServants("Messdiener2")
 MD3 = ChurchServants("Messdiener3")
@@ -29,13 +35,6 @@ MD9 = ChurchServants("Messdiener9")
 
 ListMD = [MD1, MD2, MD3, MD4, MD5, MD6, MD7, MD8, MD9]
 Messe1 = ChurchService(4)
-
-
-def allocation_md(current_churchservice):
-    for x in range(0, current_churchservice.count):
-        random_md = random.choice(ListMD)
-        current_churchservice.ListServingMD.append(random_md.name)
-
 
 allocation_md(Messe1)
 print(Messe1.ListServingMD)
