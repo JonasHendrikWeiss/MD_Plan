@@ -1,38 +1,38 @@
 import random
 
 
-class Messdiener:
+class ChurchServants:
     def __init__(self, name):
-        # MD is used as an abbreviation of Messdiener
+        # MD is used as an abbreviation of ChurchServants
         self.name = name
 
         pass
 
 
-class Messe:
-    def __init__(self, numberMessdiener):
-        # numberMessdiener is the number of Messdiener needed for the Messe
-        self.Anzahl = numberMessdiener
+class ChurchService:
+    def __init__(self, number_md):
+        # numberMD is the number of ChurchServants needed for the Church Service
+        self.count = number_md
         pass
 
 
-MD1 = Messdiener("Messdiener1")
-MD2 = Messdiener("Messdiener2")
-MD3 = Messdiener("Messdiener3")
-MD4 = Messdiener("Messdiener4")
-MD5 = Messdiener("Messdiener5")
-MD6 = Messdiener("Messdiener6")
-MD7 = Messdiener("Messdiener7")
-MD8 = Messdiener("Messdiener8")
-MD9 = Messdiener("Messdiener9")
+MD1 = ChurchServants("Messdiener1")
+MD2 = ChurchServants("Messdiener2")
+MD3 = ChurchServants("Messdiener3")
+MD4 = ChurchServants("Messdiener4")
+MD5 = ChurchServants("Messdiener5")
+MD6 = ChurchServants("Messdiener6")
+MD7 = ChurchServants("Messdiener7")
+MD8 = ChurchServants("Messdiener8")
+MD9 = ChurchServants("Messdiener9")
 
-ListeMD = [MD1, MD2, MD3, MD4, MD5, MD6, MD7, MD8, MD9]
-Messe1 = Messe(4)
+ListMD = [MD1, MD2, MD3, MD4, MD5, MD6, MD7, MD8, MD9]
+Messe1 = ChurchService(4)
 
 
-def allocation_md(messe_aktuell):
-    for x in range(0, messe_aktuell.Anzahl):
-        random_md = random.choice(ListeMD)
+def allocation_md(current_churchservice):
+    for x in range(0, current_churchservice.count):
+        random_md = random.choice(ListMD)
         print(random_md.name)
 
 
