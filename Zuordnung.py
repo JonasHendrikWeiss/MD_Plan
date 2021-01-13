@@ -13,6 +13,7 @@ class ChurchService:
     def __init__(self, number_md):
         # numberMD is the number of ChurchServants needed for the Church Service
         self.count = number_md
+        self.ListServingMD = []
         pass
 
 
@@ -33,7 +34,8 @@ Messe1 = ChurchService(4)
 def allocation_md(current_churchservice):
     for x in range(0, current_churchservice.count):
         random_md = random.choice(ListMD)
-        print(random_md.name)
+        current_churchservice.ListServingMD.append(random_md.name)
 
 
 allocation_md(Messe1)
+print(Messe1.ListServingMD)
