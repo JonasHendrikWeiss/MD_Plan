@@ -1,5 +1,7 @@
 import random
 from statistics import mean, median, stdev
+from datetime import datetime
+
 
 
 class ChurchServers:
@@ -16,31 +18,38 @@ class ChurchServers:
         # "Null" is a String to show the grade did not work
         self.grade = "Null"
         self.counter = 0
+        # List of datetime objects when a ChurchServer is not available
+        self.unavailable = []
 
 
 class ChurchService:
-    def __init__(self, number_md_needed):
+    def __init__(self, number_md_needed, date_time):
         # numberMD is the number of ChurchServers needed for the Church Service
         self.count = number_md_needed
         self.ListServingMD = []
         # NumberAllocatedMD shows the current amount of Church Servers that are allocated to the Service.
         # If the allocation is finished this number should be equal to number_md_needed
         self.NumberAllocatedMD = len(self.ListServingMD)
-        pass
+        # Adds a time to each ChurchService
+        # date_time should be a datetime object
+        self.date = date_time
 
 
 def create_availability(church_server):
     # Placeholder to create a state to check if someone is available
+    # currently disabled to reenable change first statement after if to False
     if random.randint(0, 6) == 1:
-        church_server.is_available = True
-        # print(church_server.name)
+        church_server.unavailable.append(datetime(2021, 11, 1, 18, 30))
+        print(church_server.name)
+    else:
+        pass
+
+
+def is_available(church_server, church_service):
+    if church_service.date in church_server.unavailable:
+        church_server.is_available = False
     else:
         church_server.is_available = True
-
-
-def is_available():
-    # Placeholder for later check
-    pass
 
 
 def is_assigned(check_church_service, church_server):
@@ -53,13 +62,13 @@ def is_assigned(check_church_service, church_server):
 
 def allocation_md(current_church_service):
     while len(current_church_service.ListServingMD) < current_church_service.count:
-        random_md = random.choice(List_MD)
-        is_available()
-        if random_md.is_available:
-            is_assigned(current_church_service, random_md)
-            if not random_md.is_allocated:
-                current_church_service.ListServingMD.append(random_md.name)
-                random_md.counter = random_md.counter + 1
+        selected_md = random.choice(List_MD)
+        is_available(selected_md, current_church_service)
+        if selected_md.is_available:
+            is_assigned(current_church_service, selected_md)
+            if not selected_md.is_allocated:
+                current_church_service.ListServingMD.append(selected_md.name)
+                selected_md.counter = selected_md.counter + 1
             else:
                 pass
         else:
@@ -76,27 +85,32 @@ church_service_amount = 100
 church_servers_amount = 100
 
 # Generation of ChurchServers
-for number_id in range(0, 100):
+for number_id in range(0, church_servers_amount):
     List_MD.append(ChurchServers("Messdiener" + str(number_id)))
     create_availability(List_MD[number_id])
 
 # Generates church_service_amount of church services
 for number_services in range(0, church_service_amount):
-    List_Services.append(ChurchService(8))
+    List_Services.append(ChurchService(8, datetime(2021, 11, 1, 18, 30)))
 
-# Allocation of MD to Church Services
+# Allocation of Church Server to Church Services
 for selected_church_server in range(0, church_service_amount):
     allocation_md(List_Services[selected_church_server])
-    print(List_Services[selected_church_server].ListServingMD)
+    # print(List_Services[selected_church_server].ListServingMD)
 
-# Adds the counter values of each MD to a list
+
+# Adds the counter values of each Church Server to a list
 for selected_church_server_stats in range(0, church_servers_amount):
-    print(List_MD[selected_church_server_stats].name, List_MD[selected_church_server_stats].counter)
+    # print(List_MD[selected_church_server_stats].name, List_MD[selected_church_server_stats].counter)
     statistic_list.append(List_MD[selected_church_server_stats].counter)
 
 # statistic Analysis of the allocation of Church Servants
+
 print("mean", mean(statistic_list))
 print("median", median(statistic_list))
 print("standard deviation", stdev(statistic_list))
 print("max", max(statistic_list))
 print("min", min(statistic_list))
+
+
+
