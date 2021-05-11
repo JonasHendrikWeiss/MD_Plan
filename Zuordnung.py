@@ -1,7 +1,7 @@
 import random
 from statistics import mean, median, stdev
 from datetime import datetime
-
+from docx import Document
 
 
 class ChurchServers:
@@ -76,6 +76,22 @@ def allocation_md(current_church_service):
     else:
         pass
 
+# Functions needed to output the Services to a Docx file
+
+
+def print_plan_docx(list_services, document_name):
+    document = Document()
+    document.add_heading("Messdienerplan", 1)
+    length = len(List_Services)
+    for service_number in range(0, length):
+        current_service = list_services[service_number]
+        document.add_paragraph(str(current_service.date))
+        new_string = "Messe: "
+        for x in range(0, current_service.count):
+            new_string = new_string + str(current_service.ListServingMD[x]) + " "
+        document.add_paragraph(new_string)
+    document.save(document_name)
+
 
 # Definition of lists and variables needed later
 List_MD = []
@@ -106,11 +122,12 @@ for selected_church_server_stats in range(0, church_servers_amount):
 
 # statistic Analysis of the allocation of Church Servants
 
+print(List_Services[1])
+print(List_MD[1].unavailable)
 print("mean", mean(statistic_list))
 print("median", median(statistic_list))
 print("standard deviation", stdev(statistic_list))
 print("max", max(statistic_list))
 print("min", min(statistic_list))
 
-
-
+print_plan_docx(List_Services, "test.docx")
