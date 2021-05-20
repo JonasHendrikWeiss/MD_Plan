@@ -1,13 +1,17 @@
 import random
+import pandas
 from statistics import mean, median, stdev
 from datetime import datetime
 from docx import Document
 
 
 class ChurchServers:
-    def __init__(self, name):
-        # MD is used as an abbreviation of ChurchServers
-        self.name = name
+    def __init__(self, lastname, firstname, abbreviation):
+        # MD is used as an abbreviation of ChurchServers throughout the code
+        # Different Name Attribute of the church server
+        self.lastname = lastname
+        self.firstname = firstname
+        self.abbreviation = abbreviation
         # Shows if someone is already in the current Messe
         self.is_allocated = True
         # Shows if someone has excused themselves
@@ -35,12 +39,21 @@ class ChurchService:
         self.date = date_time
 
 
+def create_church_servers(filepath, sheet, server_list):
+    columns = ["Vorname", "Nachname", "Kürzel", "Schuljahr"]
+    table_server = pandas.read_excel(filepath, sheet_name=sheet, header=0, engine="openpyxl",
+                                     usecols=columns)
+    for x in range(0, table_server.shape[0]):
+        server_list.append(ChurchServers(lastname=table_server.at[x, "Nachname"],
+                                         firstname=table_server.at[x, "Vorname"],
+                                         abbreviation=table_server.at[x, "Kürzel"]))
+
+
 def create_availability(church_server):
     # Placeholder to create a state to check if someone is available
     # currently disabled to reenable change first statement after if to False
     if random.randint(0, 6) == 1:
         church_server.unavailable.append(datetime(2021, 11, 1, 18, 30))
-        print(church_server.name)
     else:
         pass
 
@@ -54,7 +67,7 @@ def is_available(church_server, church_service):
 
 def is_assigned(check_church_service, church_server):
     # the Function checks if a ChurchServer is already assigned to the Service
-    if check_church_service.ListServingMD.count(church_server.name) == 0:
+    if check_church_service.ListServingMD.count(church_server.abbreviation) == 0:
         church_server.is_allocated = False
     else:
         church_server.is_allocated = True
@@ -67,7 +80,7 @@ def allocation_md(current_church_service):
         if selected_md.is_available:
             is_assigned(current_church_service, selected_md)
             if not selected_md.is_allocated:
-                current_church_service.ListServingMD.append(selected_md.name)
+                current_church_service.ListServingMD.append(selected_md.abbreviation)
                 selected_md.counter = selected_md.counter + 1
             else:
                 pass
@@ -75,6 +88,20 @@ def allocation_md(current_church_service):
             pass
     else:
         pass
+
+# Functions needed to handle time
+
+
+def during_timespan(start_date, end_date, checked_date):  # input only datetime objects
+    span = end_date-start_date
+    print(span)
+    checked_span = checked_date-start_date
+    print(checked_span)
+    if checked_span <= span:
+        return True
+    else:
+        return False
+
 
 # Functions needed to output the Services to a Docx file
 
@@ -87,8 +114,9 @@ def print_plan_docx(list_services, document_name):
         current_service = list_services[service_number]
         document.add_paragraph(str(current_service.date))
         new_string = "Messe: "
+        # puts a string together in order to avoid a newline for every church server
         for x in range(0, current_service.count):
-            new_string = new_string + str(current_service.ListServingMD[x]) + " "
+            new_string = new_string + str(current_service.ListServingMD[x]) + ", "
         document.add_paragraph(new_string)
     document.save(document_name)
 
@@ -101,9 +129,8 @@ church_service_amount = 100
 church_servers_amount = 100
 
 # Generation of ChurchServers
-for number_id in range(0, church_servers_amount):
-    List_MD.append(ChurchServers("Messdiener" + str(number_id)))
-    create_availability(List_MD[number_id])
+create_church_servers("Liste_Messdiener_Computer.xlsx", "Kinder", List_MD)
+create_church_servers("Liste_Messdiener_Computer.xlsx", "Leiter", List_MD)
 
 # Generates church_service_amount of church services
 for number_services in range(0, church_service_amount):
