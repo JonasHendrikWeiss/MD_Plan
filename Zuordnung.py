@@ -36,7 +36,8 @@ class ChurchService:
         self.NumberAllocatedMD = len(self.ListServingMD)
         # Adds a time to each ChurchService
         # date_time should be a datetime object
-        self.date = date_time
+        self.datetime = date_time
+        self.date = self.datetime.date()
 
 
 def create_church_servers(filepath, sheet, server_list):
@@ -52,14 +53,16 @@ def create_church_servers(filepath, sheet, server_list):
 def create_availability(church_server):
     # Placeholder to create a state to check if someone is available
     # currently disabled to reenable change first statement after if to False
-    if random.randint(0, 6) == 1:
-        church_server.unavailable.append(datetime(2021, 11, 1, 18, 30))
+    availability_list = [datetime(2021, 11, 1, 18, 30), datetime(2021, 12, 1, 18, 30), datetime(2021, 11, 1, 18, 30),
+                         datetime(2021, 11, 1, 18, 30)]
+    if random.randint(0, 3) == 1:
+        church_server.unavailable.append(availability_list[random.randint(0, 3)])
     else:
         pass
 
 
 def is_available(church_server, church_service):
-    if church_service.date in church_server.unavailable:
+    if church_service.datetime in church_server.unavailable:
         church_server.is_available = False
     else:
         church_server.is_available = True
@@ -92,7 +95,7 @@ def allocation_md(current_church_service):
 # Functions needed to handle time
 
 
-def during_timespan(start_date, end_date, checked_date):  # input only datetime objects
+def during_timespan(start_date, end_date, checked_date):  # input only datetime.datetime objects
     span = end_date-start_date
     print(span)
     checked_span = checked_date-start_date
@@ -112,13 +115,23 @@ def print_plan_docx(list_services, document_name):
     length = len(List_Services)
     for service_number in range(0, length):
         current_service = list_services[service_number]
-        document.add_paragraph(str(current_service.date))
+        document.add_paragraph(str(current_service.datetime))
         new_string = "Messe: "
         # puts a string together in order to avoid a newline for every church server
         for x in range(0, current_service.count):
             new_string = new_string + str(current_service.ListServingMD[x]) + ", "
         document.add_paragraph(new_string)
     document.save(document_name)
+
+
+def statistical_analysis():
+    print(List_Services[1])
+    print(List_MD[1].unavailable)
+    print("mean", mean(statistic_list))
+    print("median", median(statistic_list))
+    print("standard deviation", stdev(statistic_list))
+    print("max", max(statistic_list))
+    print("min", min(statistic_list))
 
 
 # Definition of lists and variables needed later
@@ -149,12 +162,5 @@ for selected_church_server_stats in range(0, church_servers_amount):
 
 # statistic Analysis of the allocation of Church Servants
 
-print(List_Services[1])
-print(List_MD[1].unavailable)
-print("mean", mean(statistic_list))
-print("median", median(statistic_list))
-print("standard deviation", stdev(statistic_list))
-print("max", max(statistic_list))
-print("min", min(statistic_list))
 
 print_plan_docx(List_Services, "test.docx")
