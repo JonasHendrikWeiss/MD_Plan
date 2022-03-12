@@ -18,9 +18,10 @@ class ChurchServers:
         self.is_available = False
         # Shows if someone is able to serve at Church
         self.is_advanced = True
-        # Grade is simplified into "Child" and "GroupLeader"
-        # "Null" is a String to show the grade did not work
-        self.grade = "Null"
+        # Groups are used to organize the ChurchServers and make them more manageable
+        # TODO Selecting two Church Servers in the same group will be preferred
+        # "Null" is a String to show the group did not work
+        self.group = "Null"
         self.counter = 0
         # List of datetime objects when a ChurchServer is not available
         self.unavailable = []
