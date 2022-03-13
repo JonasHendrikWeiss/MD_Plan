@@ -1,18 +1,20 @@
-from Zuordnung import ChurchServers, create_church_servers, create_availability
+from Zuordnung import *
 import pandas
 import os
 
-List_MD = []
-create_church_servers("Liste_Messdiener_Computer.xlsx", "Kinder", List_MD)
 
-for x in range(len(List_MD)):
-    create_availability(List_MD[x])
-
-#storage_table = pandas.read_table(List_MD)
+def json_to_pdataframe(path=os.path.dirname(os.path.realpath(__file__)), filname="JSON"):
+    # returns a dataframe called pdataframe_json for further use in the program
+    pdataframe_json = pandas.read_json(path_or_buf=f"{path}/{filname}", dtype=ChurchServers)
+    return pdataframe_json
 
 
+def import_churchservers_from_dataframe(pdataframe , server_list):
+    for x in range(0, pdataframe.size):
+        current_cserver = ChurchServers(lastname=pdataframe.at[0, x]["lastname"], firstname=pdataframe.at[0, x]["firstname"],
+                                        abbreviation=pdataframe.at[0, x]["abbreviation"])
+        current_cserver.unavailable = pdataframe.at[0, x]["unavailable"]
+        server_list.append(current_cserver)
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-storage_frame.to_json(path_or_buf= f"{dir_path}/JSON")
-print("test")
 
+# import_churchservers_from_dataframe(json_to_pdataframe())

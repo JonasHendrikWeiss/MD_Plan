@@ -1,8 +1,13 @@
 import random
 import pandas
 from statistics import mean, median, stdev
-from datetime import datetime
+from datetime import datetime, date
 from docx import Document
+
+
+List_MD = []
+List_Services = []
+statistic_list = []
 
 
 class ChurchServers:
@@ -54,16 +59,16 @@ def create_church_servers(filepath, sheet, server_list):
 def create_availability(church_server):
     # Placeholder to create a state to check if someone is available
     # currently disabled to reenable change first statement after if to False
-    availability_list = [datetime(2021, 11, 1, 18, 30), datetime(2021, 12, 1, 18, 30), datetime(2021, 11, 1, 18, 30),
-                         datetime(2021, 11, 1, 18, 30)]
-    if random.randint(0, 3) == 1:
+    availability_list = [date(2021, 11, 1).isoformat(), date(2021, 12, 1).isoformat(), date(2021, 11, 1).isoformat(),
+                         date(2021, 11, 1).isoformat()]
+    if random.randint(0, 2) == 1:
         church_server.unavailable.append(availability_list[random.randint(0, 3)])
     else:
         pass
 
 
 def is_available(church_server, church_service):
-    if church_service.datetime in church_server.unavailable:
+    if church_service.date.isoformat() in church_server.unavailable:
         church_server.is_available = False
     else:
         church_server.is_available = True
@@ -77,7 +82,7 @@ def is_assigned(check_church_service, church_server):
         church_server.is_allocated = True
 
 
-def allocation_md(current_church_service):
+def allocation_md(current_church_service, List = List_MD):
     while len(current_church_service.ListServingMD) < current_church_service.count:
         selected_md = random.choice(List_MD)
         is_available(selected_md, current_church_service)
@@ -136,10 +141,8 @@ def statistical_analysis():
 
 
 # Definition of lists and variables needed later
-List_MD = []
-List_Services = []
-statistic_list = []
-church_service_amount = 100
+
+church_service_amount = 20
 church_servers_amount = 100
 
 # Generation of ChurchServers
