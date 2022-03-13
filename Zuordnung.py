@@ -29,6 +29,8 @@ class ChurchServers:
         self.group = "Null"
         self.counter = 0
         # List of datetime objects when a ChurchServer is not available
+        # TODO rebuild Constructor so it adds the unavailable part of the class too
+        #  standard value of an empty list might be good
         self.unavailable = []
 
 

@@ -3,9 +3,9 @@ import pandas
 import os
 
 
-def json_to_pdataframe(path=os.path.dirname(os.path.realpath(__file__)), filname="JSON"):
+def json_to_pdataframe(dir_path=os.path.dirname(os.path.realpath(__file__)), filname="JSON"):
     # returns a dataframe called pdataframe_json for further use in the program
-    pdataframe_json = pandas.read_json(path_or_buf=f"{path}/{filname}", dtype=ChurchServers)
+    pdataframe_json = pandas.read_json(path_or_buf=f"{dir_path}/{filname}", dtype=ChurchServers)
     return pdataframe_json
 
 
@@ -17,4 +17,8 @@ def import_churchservers_from_dataframe(pdataframe , server_list):
         server_list.append(current_cserver)
 
 
-# import_churchservers_from_dataframe(json_to_pdataframe())
+def list_to_json(list, dir_path=os.path.dirname(os.path.realpath(__file__)),
+                 filename="JSON"):
+    pandas.DataFrame([list]).to_json(path_or_buf=f"{dir_path}/{filename}")
+
+# import_churchservers_from_dataframe(json_to_pdataframe(),List_MD)
