@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import (QWidget, QCalendarWidget, QPushButton,
 from PyQt6.QtCore import QDate
 import sys
 from Panda_To_Storage import *
+import numpy
 from Zuordnung import create_church_servers, ChurchServers
 from datetime import time
 List_MD = []

@@ -11,7 +11,7 @@ statistic_list = []
 
 
 class ChurchServers:
-    def __init__(self, lastname, firstname, abbreviation):
+    def __init__(self, lastname, firstname, abbreviation, unavailable=[], group="Null"):
         # MD is used as an abbreviation of ChurchServers throughout the code
         # Different Name Attribute of the church server
         self.lastname = lastname
@@ -26,12 +26,10 @@ class ChurchServers:
         # Groups are used to organize the ChurchServers and make them more manageable
         # TODO Selecting two Church Servers in the same group will be preferred
         # "Null" is a String to show the group did not work
-        self.group = "Null"
+        self.group = group
         self.counter = 0
         # List of datetime objects when a ChurchServer is not available
-        # TODO rebuild Constructor so it adds the unavailable part of the class too
-        #  standard value of an empty list might be good
-        self.unavailable = []
+        self.unavailable = unavailable
 
 
 class ChurchService:
