@@ -1,5 +1,6 @@
 # the controller behind the availability page of the application
 from Panda_To_Storage import import_churchservers_from_dataframe, json_to_pdataframe
+import pandas
 
 def get_amount_of_elements(list):
     set_of_list = set(list)
@@ -16,13 +17,6 @@ for x in range(len(List_MD)):
 print(get_amount_of_elements(List_grades))
 
 
-
-A = [1,1,1,1,1,1,2,3,4,5,3,5,3,2,3,8]
-b = set(A)
-print(b)
-b.add(1)
-c= list(b)
-print(c.index(8))
  # TODO Rebuild this as a dataframe
 def create_list_of_groups(list_all_servers):
     set_of_groups = set([])
@@ -40,13 +34,19 @@ def create_list_of_groups(list_all_servers):
     return list_of_groups, order_of_groups, str_order_of_groups
 
 
-def fill_churchserver_selection_button(button_grades, button_servers, list_all_servers):
-    list_of_groups = create_list_of_groups(list_all_servers)[0]
-    order_of_groups = create_list_of_groups(list_all_servers)[1]
+def create_dataframe_of_groups(list_all_servers):
+    #Takes a list and turns it into a pandas.DataFrame
+    return pandas.DataFrame(create_list_of_groups(list_all_servers)[0])
 
 
+def get_server_from_abbreviation(abbreviation, List = List_MD):
+    # Takes an abbreviation and a List of all ChurchServers and returns the first ChurchServer with a matching
+    # abbreviation
+    for b in range(len(List)):
+        if abbreviation == List_MD[b].abbreviation:
+            return List_MD[b]
 
 
-print(create_list_of_groups(List_MD))
-pass
-print(len(List_MD))
+def get_unavailable_dates(selected_churchserver):
+    return selected_churchserver.unavailable
+

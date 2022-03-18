@@ -26,7 +26,7 @@ class ChurchServers:
         # Groups are used to organize the ChurchServers and make them more manageable
         # TODO Selecting two Church Servers in the same group will be preferred
         # "Null" is a String to show the group did not work
-        self.group = group
+        self.group = str(group)
         self.counter = 0
         # List of datetime objects when a ChurchServer is not available
         self.unavailable = unavailable
