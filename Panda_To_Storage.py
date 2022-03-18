@@ -1,7 +1,11 @@
 from Zuordnung import *
 import pandas
 import os
-import numpy
+
+
+class data_storage():
+    def __init__(self, list_churchservers = []):
+        self.list_churchservers = list_churchservers
 
 
 def json_to_pdataframe(dir_path=os.path.dirname(os.path.realpath(__file__)), filname="JSON"):
