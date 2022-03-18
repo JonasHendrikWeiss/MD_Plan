@@ -33,7 +33,7 @@ class ChurchServers:
 
 
 class ChurchService:
-    def __init__(self, number_md_needed, date_time):
+    def __init__(self, number_md_needed, date, time = "Null"):
         # numberMD is the number of ChurchServers needed for the Church Service
         self.count = number_md_needed
         self.ListServingMD = []
@@ -42,8 +42,11 @@ class ChurchService:
         self.NumberAllocatedMD = len(self.ListServingMD)
         # Adds a time to each ChurchService
         # date_time should be a datetime object
-        self.datetime = date_time
-        self.date = self.datetime.date()
+        #TODO readd the datetime of a Service
+        self.time = time
+        # self.date is a Datetime object as a .isoformat() string
+        self.date = date
+        self.description = f"Messe am {self.date} mit {self.count} Messdienern"
 
 
 def create_church_servers(filepath, sheet, server_list):
@@ -121,7 +124,7 @@ def print_plan_docx(list_services, document_name):
     length = len(List_Services)
     for service_number in range(0, length):
         current_service = list_services[service_number]
-        document.add_paragraph(str(current_service.datetime))
+        document.add_paragraph(str(current_service.date))
         new_string = "Messe: "
         # puts a string together in order to avoid a newline for every church server
         for x in range(0, current_service.count):
