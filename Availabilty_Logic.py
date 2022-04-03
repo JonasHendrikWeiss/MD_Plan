@@ -11,27 +11,27 @@ List_grades = []
 # import all the churchservers from the JSON file
 import_churchservers_from_dataframe(json_to_pdataframe(), List_MD)
 
-for x in range(len(List_MD)):
-    List_grades.append(List_MD[x].group)
-
-print(get_amount_of_elements(List_grades))
 
 
  # TODO Rebuild this as a dataframe
 def create_list_of_groups(list_all_servers):
     set_of_groups = set([])
     list_of_groups = []
-    str_order_of_groups = []
     for server in range(len(list_all_servers)):
         set_of_groups.add(list_all_servers[server].group)
     order_of_groups = list(set_of_groups)
-    for x in range(len(order_of_groups)):
-        str_order_of_groups.append(str(order_of_groups[x]))
+    # maps the list and turns all items into integers to sort them by value more easily
+    order_of_groups = list(map(int, order_of_groups))
+    order_of_groups.sort()
+    # Turns the integers back into strings
+    order_of_groups = list(map(str, order_of_groups))
     for group_amount in range(len(set_of_groups)):
         list_of_groups.append([])
     for server in range(len(list_all_servers)):
         list_of_groups[order_of_groups.index(list_all_servers[server].group)].append(list_all_servers[server])
-    return list_of_groups, order_of_groups, str_order_of_groups
+
+    return list_of_groups, order_of_groups
+    # str_order_of_groups was removed because it was the same as order of groups
 
 
 def create_dataframe_of_groups(list_all_servers):

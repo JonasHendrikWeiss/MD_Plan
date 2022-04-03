@@ -1,11 +1,9 @@
 from PyQt6.QtWidgets import (QWidget, QCalendarWidget, QPushButton,
                              QLabel, QApplication, QVBoxLayout, QComboBox)
-from PyQt6.QtCore import QDate
+from PyQt6.QtCore import QDate, QVariant
 import sys
 from Panda_To_Storage import *
-import numpy
 from Zuordnung import create_church_servers, ChurchServers
-from datetime import time
 List_MD = []
 # import all the churchservers from the JSON file
 import_churchservers_from_dataframe(json_to_pdataframe(), List_MD)
@@ -15,6 +13,7 @@ class Interface(QWidget):
     count = 0
     cal = None
     combobox = None
+    test_combobox = None
     lable1 = None
     lable2 = None
 
@@ -43,11 +42,15 @@ class Interface(QWidget):
                 break
         Interface.lable1.setText(f"{selected} mit Nummer {b}")
 
+    def print_selected_data(self):
+        print(Interface.test_combobox.data)
+
 
     def initUI(self):
         vbox = QVBoxLayout(self)
         button = QPushButton(self, text="Abmeldung")
         Interface.combobox = QComboBox(self)
+        Interface.test_combobox = QComboBox(self)
         Interface.cal = QCalendarWidget(self)
         Interface.cal.setGridVisible(True)
         Interface.cal.clicked[QDate].connect(self.showDate)
@@ -70,9 +73,11 @@ class Interface(QWidget):
         Interface.lable1 = QLabel(self)
         Interface.lable3 = QLabel(self)
         Interface.combobox.activated.connect(self.select_churchserver)
+        Interface.test_combobox.activated.connect(self.print_selected_data)
         vbox.addWidget(self.lbl)
         vbox.addWidget(self.lable2)
         vbox.addWidget(self.lable1)
+        vbox.addWidget(self.test_combobox)
 
         self.setLayout(vbox)
 
@@ -83,6 +88,14 @@ class Interface(QWidget):
         #vbox.addWidget(button_manage_cservers)
         #vbox.addWidget(button_settings)
         self.show()
+
+        self.test_combobox.addItem(List_MD[0].abbreviation,)
+        self.test_combobox.addItem("test", 3)
+
+
+
+
+
 
 
 
