@@ -1,10 +1,10 @@
 
 import sys
 
-from PySide6.QtCore import QFile, QIODevice
+from PySide6.QtCore import QFile, QIODevice, QRect
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication
-
+from PySide6.QtGui import QPainter
 
 from Availabilty_Logic import create_list_of_groups, get_server_from_abbreviation, get_unavailable_dates, remove_unavailable_days
 from Assignment_Logic import create_new_churchservice
@@ -38,6 +38,10 @@ class Assignment_Window():
 
         #This section fills the combobox with data
         Assignment_Window.view.comboBox_Grades.addItems(create_list_of_groups(data.list_churchservers)[1])
+        Assignment_Window.view.comboBox_Grades.setCurrentIndex(-1)
+        Assignment_Window.view.comboBox_Grades.setPlaceholderText("Schuljahre")
+        Assignment_Window.view.comboBox_Churchservers.setPlaceholderText("Messdiener")
+
 
         # This section is used to add connections to buttons and other parts of the view
         Assignment_Window.view.listWidget.itemSelectionChanged.connect(self.return_multi_selection)
@@ -46,8 +50,8 @@ class Assignment_Window():
         Assignment_Window.view.push_button_single_day.clicked.connect(self.unavailable_day)
         Assignment_Window.view.push_button_save.clicked.connect(self.initiate_saving)
         Assignment_Window.view.push_button_remove_day.clicked.connect(self.initiate_removal_days)
+
         sys.exit(app.exec())
-    # TODO build a error handling for clicking this button before selecting both group and Churchserver
 
     
     def return_multi_selection(self):
@@ -75,6 +79,10 @@ class Assignment_Window():
         index_selected_grade = temporary_data[1].index(grade)
         for x in range(len(temporary_data[0][index_selected_grade])):
             combobox_cservers.addItem(temporary_data[0][index_selected_grade][x].abbreviation)
+        # Clears the list widget so old data is not carried over to a new church server
+        Assignment_Window.view.listWidget.clear()
+
+
     
     
     def fill_list_with_unavailable(self):
@@ -88,6 +96,10 @@ class Assignment_Window():
     def unavailable_day(self):
         selected_server = get_server_from_abbreviation(Assignment_Window.view.comboBox_Churchservers.currentText(),
                                                        data)
+        if selected_server == None:
+            # Is only relevant if the button is clicked for the first time without making any other selections
+            print("No Selection")
+            return
         if Assignment_Window.view.calendarWidget.selectedDate().toPython().isoformat() not in selected_server.unavailable:
             selected_server.unavailable.append(Assignment_Window.view.calendarWidget.selectedDate().toPython().isoformat())
             Assignment_Window.fill_list_with_unavailable(Assignment_Window.view.listWidget)
