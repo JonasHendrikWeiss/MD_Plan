@@ -23,18 +23,28 @@ class Main_Window(QMainWindow):
         #Import the view from an UI file
         uic.loadUi("MainWindow.ui", self)
         self.show()
-        self.pushButton.clicked.connect(Main_Window.start_window)
+        self.pushButton_assignment.clicked.connect(Main_Window.start_window_assignment)
+        self.pushButton_availability.clicked.connect(Main_Window.start_window_availability)
+        self.pushButton_churchservers.clicked.connect(Main_Window.start_window_churchservers)
+        self.pushButton_settings.clicked.connect(Main_Window.start_window_settings)
 
 
+    def start_window_assignment(self):
+        print("starting availability Window")
 
 
-
-    def start_window(self):
-        print("est")
+    def start_window_availability(self):
+        print("starting assignment Window")
         a = Assignment_Window()
         a.view.show()
         #Mainrunner.window.show()
         #Mainrunner.app1.exec()
+
+    def start_window_churchservers(self):
+        print("starting churchserver Window")
+
+    def start_window_settings(self):
+        print("starting settings Window")
 
 
 app = QApplication(sys.argv) # Create an instance of QtWidgets.QApplication
