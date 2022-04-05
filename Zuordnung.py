@@ -76,6 +76,15 @@ class TimeSpan:
             self.start_date, self.end_date = self.end_date, self.start_date
 
 
+def merge_timespan(first_time_span, other_time_span):
+    # Merges two TimeSpan Objects into a new one does not delete the old ones
+    if first_time_span.check_overlap(other_time_span):
+        new_start = min(first_time_span.start_date, other_time_span.start_date)  # the start of the new merge
+        new_end = max (first_time_span.end_date, other_time_span.end_date)
+        return TimeSpan(new_start, new_end)
+    else:
+        print("Cannot merge the time span two disjoined events")
+
 
 
 
@@ -189,3 +198,17 @@ if __name__ == "__main__":
 
 
     #print_plan_docx(List_Services, "test.docx")
+
+
+a = datetime(2022,5,1).date()
+b = datetime(2022,5,2).date()
+c = datetime(2022,5,3).date()
+d = datetime(2022,5,4).date()
+af = TimeSpan(a,b)
+bf = TimeSpan(c,c)
+cf = TimeSpan(b,d)
+df = TimeSpan(a,d)
+print(df.description)
+print(merge_timespan(af,df).description)
+print(af)
+print(df)
