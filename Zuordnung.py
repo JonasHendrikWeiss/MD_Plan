@@ -49,6 +49,36 @@ class ChurchService:
         self.description = f"Messe am {self.date} mit {self.count} Messdienern"
 
 
+class TimeSpan:
+    def __init__(self, start_date, end_date):
+        self.start_date = start_date
+        self.end_date = end_date
+        self.order_dates()
+        self.description = f"{self.start_date} / {self.end_date}"
+
+    def during_timespan(self, checked_date): # Takes a date and returns true if it is in the TimeSpan
+        if self.start_date <= checked_date <= self.end_date:
+            return True
+        else:
+            return False
+
+    def check_overlap(self, other):
+        if other.during_timespan(self.start_date):
+            return True
+        elif self.during_timespan(other.start_date):
+            return True
+        else:
+            return False
+
+    def order_dates(self):
+        if self.start_date > self.end_date:
+            # Swaps the two values around so the start date is always at the beginning
+            self.start_date, self.end_date = self.end_date, self.start_date
+
+
+
+
+
 def create_church_servers(filepath, sheet, server_list):
     columns = ["Vorname", "Nachname", "Kürzel", "Schuljahr"]
     table_server = pandas.read_excel(filepath, sheet_name=sheet, header=0, engine="openpyxl",
@@ -101,18 +131,6 @@ def allocation_md(current_church_service, List = List_MD):
     else:
         pass
 
-# Functions needed to handle time
-
-
-def during_timespan(start_date, end_date, checked_date):  # input only datetime.datetime objects
-    span = end_date-start_date
-    print(span)
-    checked_span = checked_date-start_date
-    print(checked_span)
-    if checked_span <= span:
-        return True
-    else:
-        return False
 
 
 # Functions needed to output the Services to a Docx file
@@ -144,30 +162,30 @@ def statistical_analysis():
 
 
 # Definition of lists and variables needed later
+if __name__ == "__main__":
+    church_service_amount = 20
+    church_servers_amount = 100
 
-church_service_amount = 20
-church_servers_amount = 100
+    # Generation of ChurchServers
+    create_church_servers("Liste_Messdiener_Computer.xlsx", "Kinder", List_MD)
+    create_church_servers("Liste_Messdiener_Computer.xlsx", "Leiter", List_MD)
 
-# Generation of ChurchServers
-create_church_servers("Liste_Messdiener_Computer.xlsx", "Kinder", List_MD)
-create_church_servers("Liste_Messdiener_Computer.xlsx", "Leiter", List_MD)
+    # Generates church_service_amount of church services
+    for number_services in range(0, church_service_amount):
+        List_Services.append(ChurchService(8, datetime(2021, 11, 1, 18, 30)))
 
-# Generates church_service_amount of church services
-for number_services in range(0, church_service_amount):
-    List_Services.append(ChurchService(8, datetime(2021, 11, 1, 18, 30)))
-
-# Allocation of Church Server to Church Services
-for selected_church_server in range(0, church_service_amount):
-    allocation_md(List_Services[selected_church_server])
-    # print(List_Services[selected_church_server].ListServingMD)
-
-
-# Adds the counter values of each Church Server to a list
-for selected_church_server_stats in range(0, church_servers_amount):
-    # print(List_MD[selected_church_server_stats].name, List_MD[selected_church_server_stats].counter)
-    statistic_list.append(List_MD[selected_church_server_stats].counter)
-
-# statistic Analysis of the allocation of Church Servants
+    # Allocation of Church Server to Church Services
+    for selected_church_server in range(0, church_service_amount):
+        allocation_md(List_Services[selected_church_server])
+        # print(List_Services[selected_church_server].ListServingMD)
 
 
-print_plan_docx(List_Services, "test.docx")
+    # Adds the counter values of each Church Server to a list
+    for selected_church_server_stats in range(0, church_servers_amount):
+        # print(List_MD[selected_church_server_stats].name, List_MD[selected_church_server_stats].counter)
+        statistic_list.append(List_MD[selected_church_server_stats].counter)
+
+    # statistic Analysis of the allocation of Church Servants
+
+
+    #print_plan_docx(List_Services, "test.docx")

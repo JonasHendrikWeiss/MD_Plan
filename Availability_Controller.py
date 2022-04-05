@@ -70,7 +70,7 @@ class Assignment_Window():
 
 
     def print_yes(self):
-        print("yes")
+        print()
     
     
     def add_items(self, list_new_items):
