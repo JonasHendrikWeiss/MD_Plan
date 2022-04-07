@@ -39,21 +39,19 @@ def create_dataframe_of_groups(list_all_servers):
     return pandas.DataFrame(create_list_of_groups(list_all_servers)[0])
 
 
-def get_server_from_abbreviation(abbreviation, storage_object):
-    # Takes an abbreviation and a List of all ChurchServers and returns the first ChurchServer with a matching
-    # abbreviation
-    for b in range(len(storage_object.list_churchservers)):
-        if abbreviation == storage_object.list_churchservers[b].abbreviation:
-            return storage_object.list_churchservers[b]
-
 
 def get_unavailable_dates(selected_churchserver):
-    return selected_churchserver.unavailable
+    # returns a list with the descriptions of unavailable days
+    description_list=[]
+    for c in range(len(selected_churchserver.unavailable)):
+        description_list.append(selected_churchserver.unavailable[c])
+    return description_list
 
 
 def remove_unavailable_days(church_server, unavailable_days):
     # Removes all days from a list from the unavailable list of the ChurchServer
     # Try is used to get rid of the error thrown when unavailable Days is not in the unavailable days.
     for selected_date in range(len(unavailable_days)):
-        church_server.unavailable.remove(unavailable_days[selected_date])
+        print(iter(church_server.unavailable))
+        #church_server.unavailable.remove(unavailable_days[selected_date].description)
 

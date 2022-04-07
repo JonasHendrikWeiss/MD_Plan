@@ -47,8 +47,9 @@ class Main_Window(QMainWindow):
         print("starting settings Window")
 
 
-app = QApplication(sys.argv) # Create an instance of QtWidgets.QApplication
+if __name__ == "__main__":
+    app = QApplication(sys.argv) # Create an instance of QtWidgets.QApplication
 
-window = Main_Window() # Create an instance of our class
-window.show
-app.exec() # Start the application
+    window = Main_Window() # Create an instance of our class
+    window.show
+    app.exec() # Start the application

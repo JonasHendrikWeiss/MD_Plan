@@ -25,6 +25,7 @@ def import_churchservers_from_dataframe(pdataframe , server_list):
 
 def list_to_json(list, dir_path=os.path.dirname(os.path.realpath(__file__)),
                  filename="JSON"):
-    pandas.DataFrame([list]).to_json(path_or_buf=f"{dir_path}/{filename}")
+    pandas.DataFrame(list).to_json(path_or_buf=f"{dir_path}/{filename}",)
+    # if it crashed at [] around list. Removed it because the size of the data was increasing
 
 

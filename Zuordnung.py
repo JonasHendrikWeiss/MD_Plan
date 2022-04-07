@@ -28,8 +28,20 @@ class ChurchServers:
         # "Null" is a String to show the group did not work
         self.group = str(group)
         self.counter = 0
-        # List of datetime objects when a ChurchServer is not available
+        # List of TimeSpan objects when a ChurchServer is not available
         self.unavailable = unavailable
+
+    def add_unavailable(self, timespan):
+        overlap_list = []
+        for selected_unavailable in range(len(self.unavailable)):
+            if timespan.check_overlap(self.unavailable[selected_unavailable]):  # Checks if there are any overlaps
+                overlap_list.append(self.unavailable[selected_unavailable]) # Mergeable TimeSpans are appended to a list
+
+            for selected_merge in range(len(overlap_list)):
+                self.unavailable.remove(overlap_list[selected_merge]) # removes the overlapping element
+                timespan = merge_timespan(timespan, overlap_list[selected_merge]) # merges all overlapping elements
+        self.unavailable.append(timespan)  # adds the final TimeSpan to the unavailable list
+
 
 
 class ChurchService:
@@ -78,14 +90,14 @@ class TimeSpan:
 
 def merge_timespan(first_time_span, other_time_span):
     # Merges two TimeSpan Objects into a new one does not delete the old ones
-    if first_time_span.check_overlap(other_time_span):
+    if first_time_span.check_overlap(other_time_span):  # Checks for shared days so the TimeSpan can be merged
         new_start = min(first_time_span.start_date, other_time_span.start_date)  # the start of the new merge
         new_end = max (first_time_span.end_date, other_time_span.end_date)
         return TimeSpan(new_start, new_end)
     else:
         print("Cannot merge the time span two disjoined events")
 
-
+# TODO remove all the old unused bits of code in this file and rename it
 
 
 def create_church_servers(filepath, sheet, server_list):
@@ -200,15 +212,15 @@ if __name__ == "__main__":
     #print_plan_docx(List_Services, "test.docx")
 
 
-a = datetime(2022,5,1).date()
-b = datetime(2022,5,2).date()
-c = datetime(2022,5,3).date()
-d = datetime(2022,5,4).date()
-af = TimeSpan(a,b)
-bf = TimeSpan(c,c)
-cf = TimeSpan(b,d)
-df = TimeSpan(a,d)
-print(df.description)
-print(merge_timespan(af,df).description)
-print(af)
-print(df)
+    a = datetime(2022,5,1).date()
+    b = datetime(2022,5,2).date()
+    c = datetime(2022,5,3).date()
+    d = datetime(2022,5,4).date()
+    af = TimeSpan(a,b)
+    bf = TimeSpan(c,c)
+    cf = TimeSpan(b,d)
+    df = TimeSpan(a,d)
+    print(df.description)
+    print(merge_timespan(af,df).description)
+    print(af)
+    print(df)
