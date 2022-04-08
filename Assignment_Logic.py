@@ -1,4 +1,4 @@
-from Panda_To_Storage import import_churchservers_from_dataframe, json_to_pdataframe
+from Storage_Operations import import_churchservers_from_dataframe, json_to_pdataframe
 import pandas
 from Zuordnung import ChurchService
 

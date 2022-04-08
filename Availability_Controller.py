@@ -1,18 +1,16 @@
 
 import sys
 
-from PySide6.QtCore import QFile, QIODevice, QRect
+from PySide6.QtCore import QFile, QIODevice
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QApplication, QListWidgetItem, QAbstractItemView
+from PySide6.QtWidgets import QApplication, QListWidgetItem
 
 from PySide6.QtGui import QPainter
 from Zuordnung import TimeSpan
-from Availabilty_Logic import create_list_of_groups, get_unavailable_dates, remove_unavailable_days
-from Assignment_Logic import create_new_churchservice
-from Panda_To_Storage import import_churchservers_from_dataframe, json_to_pdataframe, list_to_json, data_storage
+from Availabilty_Logic import create_list_of_groups, remove_unavailable_days
+from Storage_Operations import import_churchservers_from_dataframe, json_to_pdataframe, list_to_json, data_storage
 
 data = data_storage()
-# import all the churchservers from the JSON file
 
 class Assignment_Window():
     view = None

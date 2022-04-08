@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import (QWidget, QCalendarWidget, QPushButton,
                              QLabel, QApplication, QVBoxLayout, QComboBox)
 from PyQt6.QtCore import QDate, QVariant
 import sys
-from Panda_To_Storage import *
+from Storage_Operations import *
 from Zuordnung import create_church_servers, ChurchServers
 List_MD = []
 # import all the churchservers from the JSON file

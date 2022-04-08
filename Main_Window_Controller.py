@@ -4,7 +4,7 @@ from PySide6.QtUiTools import QUiLoader
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QApplication
-from Panda_To_Storage import data_storage, import_churchservers_from_dataframe, json_to_pdataframe
+from Storage_Operations import data_storage, import_churchservers_from_dataframe, json_to_pdataframe
 
 from Availability_Controller import Assignment_Window
 

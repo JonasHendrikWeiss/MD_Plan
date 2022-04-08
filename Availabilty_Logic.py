@@ -1,5 +1,5 @@
 # the controller behind the availability page of the application
-from Panda_To_Storage import import_churchservers_from_dataframe, json_to_pdataframe
+from Storage_Operations import import_churchservers_from_dataframe, json_to_pdataframe
 import pandas
 
 def get_amount_of_elements(list):

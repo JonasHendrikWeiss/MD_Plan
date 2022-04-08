@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import (QWidget, QCalendarWidget, QPushButton, QMenuBar,
 from PyQt6 import QtGui, QtCore, QtWidgets, uic
 import sys
 from Availabilty_Logic import create_list_of_groups, get_server_from_abbreviation, get_unavailable_dates, remove_unavailable_days
-from Panda_To_Storage import import_churchservers_from_dataframe, json_to_pdataframe, list_to_json, data_storage
+from Storage_Operations import import_churchservers_from_dataframe, json_to_pdataframe, list_to_json, data_storage
 from Availabilty_Logic import get_amount_of_elements
 
 # A File to handle the view of the availability page of the application
