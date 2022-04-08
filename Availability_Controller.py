@@ -14,7 +14,6 @@ from Panda_To_Storage import import_churchservers_from_dataframe, json_to_pdataf
 data = data_storage()
 # import all the churchservers from the JSON file
 
-# TODO replace strings in Churchserver.unavailable with TimeSpan objects and clear all data in the Churchserver objects
 class Assignment_Window():
     view = None
     start_date = None

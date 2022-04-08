@@ -79,6 +79,9 @@ class TimeSpan:
         # TODO add functionality if day is one of start or end date
         if other.during_timespan(self.start_date - timedelta(days=1)):
             return True
+        elif self.during_timespan(other.start_date):
+            # This is needed because otherwise one can add a one day TimeSpan to itself
+            return True
         elif self.during_timespan(other.start_date - timedelta(days=1)):
             return True
         else:
