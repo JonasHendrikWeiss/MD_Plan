@@ -4,12 +4,10 @@ from PySide6.QtUiTools import QUiLoader
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QApplication
-from Storage_Operations import data_storage, import_churchservers_from_dataframe, json_to_pdataframe
 
-from Availability_Controller import Assignment_Window
+from Availability_Controller import Availability_Window
+from Assingment_Controller import Assignment_Window
 
-data= data_storage()
-import_churchservers_from_dataframe(json_to_pdataframe(), data.list_churchservers)
 
 class Main_Window(QMainWindow):
 
@@ -31,14 +29,13 @@ class Main_Window(QMainWindow):
 
     def start_window_assignment(self):
         print("starting availability Window")
-
+        assignment_window = Assignment_Window()
+        assignment_window.view.show()
 
     def start_window_availability(self):
         print("starting assignment Window")
-        a = Assignment_Window()
+        a = Availability_Window()
         a.view.show()
-        #Mainrunner.window.show()
-        #Mainrunner.app1.exec()
 
     def start_window_churchservers(self):
         print("starting churchserver Window")

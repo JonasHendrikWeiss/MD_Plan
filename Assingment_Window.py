@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import (QWidget, QCalendarWidget, QPushButton, QSpinBox,
                              QLabel, QApplication, QGridLayout, QComboBox, QListWidget)
 from PyQt6 import QtGui, QtCore, QtWidgets
 import sys
-from Availabilty_Logic import create_list_of_groups, get_server_from_abbreviation, get_unavailable_dates, remove_unavailable_days
+from Availabilty_Logic import create_list_of_groups, get_unavailable_dates, remove_unavailable_days
 from Assignment_Logic import create_new_churchservice
 from Storage_Operations import import_churchservers_from_dataframe, json_to_pdataframe, list_to_json, data_storage
 

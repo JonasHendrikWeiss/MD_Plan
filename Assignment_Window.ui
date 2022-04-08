@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Assignment_Window</class>
+ <widget class="QMainWindow" name="Assignment_Window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1055</width>
+    <height>669</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Plan Schreiben</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QCalendarWidget" name="calendarWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>331</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="gridVisible">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Grades">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>250</y>
+      <width>191</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="insertPolicy">
+     <enum>QComboBox::InsertAlphabetically</enum>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Grades_2">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>410</y>
+      <width>141</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="insertPolicy">
+     <enum>QComboBox::InsertAlphabetically</enum>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox_groupleader">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>240</y>
+      <width>161</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="suffix">
+     <string/>
+    </property>
+    <property name="value">
+     <number>2</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>210</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Leiteranzahl</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>150</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Kinderanzahl</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>10</y>
+      <width>381</width>
+      <height>381</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_delete_service">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>330</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Messe löschen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_add_service">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>280</y>
+      <width>111</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Messe hinzufügen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_fill_service">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>380</y>
+      <width>111</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Messe mit
+Messdienern füllen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_add_cserver">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>452</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Messdiener Hinzufügen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_save">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>570</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Speichern</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Grades_3">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>410</y>
+      <width>141</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="insertPolicy">
+     <enum>QComboBox::InsertAlphabetically</enum>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBox_cserver">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>180</y>
+      <width>161</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>6</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_remove_cservers">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>510</y>
+      <width>131</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ausgewählte Messdiener
+entfernen</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1055</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
