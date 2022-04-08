@@ -16,6 +16,7 @@ class ChurchServers:
         # Different Name Attribute of the church server
         self.lastname = lastname
         self.firstname = firstname
+        self.fullname = f"{self.firstname} {self.lastname}"
         self.abbreviation = abbreviation
         # Shows if someone is already in the current Messe
         self.is_allocated = True

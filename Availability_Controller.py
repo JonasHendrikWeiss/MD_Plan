@@ -3,7 +3,7 @@ import sys
 
 from PySide6.QtCore import QFile, QIODevice, QRect
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QListWidgetItem, QAbstractItemView
 
 from PySide6.QtGui import QPainter
 from Zuordnung import TimeSpan
@@ -13,7 +13,6 @@ from Panda_To_Storage import import_churchservers_from_dataframe, json_to_pdataf
 
 data = data_storage()
 # import all the churchservers from the JSON file
-import_churchservers_from_dataframe(json_to_pdataframe(), data.list_churchservers)
 
 # TODO replace strings in Churchserver.unavailable with TimeSpan objects and clear all data in the Churchserver objects
 class Assignment_Window():
@@ -65,8 +64,8 @@ class Assignment_Window():
         selected_list = []
         for x in range(Assignment_Window.view.listWidget.count()):
             if Assignment_Window.view.listWidget.item(x).isSelected() == True:
-                selected_list.append(Assignment_Window.view.listWidget.item(x).text())
-        return selected_list
+                selected_list.append(Assignment_Window.view.listWidget.item(x).data(0x0100))
+        return selected_list # 0x0100 is the integer for a Qt.UserRole
 
 
     def print_yes(self):
@@ -77,9 +76,20 @@ class Assignment_Window():
         # A function to add all Items of a given list as strings to a combobox
         for x in range(len(list_servers)):
             selected_server = list_servers[x]
-            selected_object.addItem(selected_server.abbreviation, userData=selected_server) # adds the Abbreviation as a
+            Full_Name = str(selected_server.firstname)
+            selected_object.addItem(selected_server.fullname, userData=selected_server) # adds the Abbreviation as a
             # string and the object as userData
-    
+
+    def add_timespan_object(selected_object, churchserver):
+        # Adds all the TimeSpan Objects to the selected object
+        for span_number in range(len(churchserver.unavailable)):  # iterates through all possible TimeSpan objects
+            item_to_add = QListWidgetItem() # Adds a temporary custom QListWidgetItem in order to support data
+            selected_span = churchserver.unavailable[span_number]
+            item_to_add.setText(selected_span.description)
+            item_to_add.setData(0x0100, selected_span)  # 0x0100 is the integer for a Qt.UserRole
+            selected_object.addItem(item_to_add)
+
+                                    #userData=selected_span)
     
     def fill_churchserver_selection_button(self):
         # Rebuild to do more in Availability Logic
@@ -102,7 +112,8 @@ class Assignment_Window():
         print(get_unavailable_dates(selected_server))
         Assignment_Window.view.listWidget.clear()
 
-        Assignment_Window.view.listWidget.addItems(get_unavailable_dates(selected_server))
+        Assignment_Window.add_timespan_object(Assignment_Window.view.listWidget, selected_server)
+
         Assignment_Window.view.listWidget.sortItems()
     
     def unavailable_day(self):

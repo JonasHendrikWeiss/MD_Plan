@@ -49,9 +49,7 @@ def get_unavailable_dates(selected_churchserver):
 
 
 def remove_unavailable_days(church_server, unavailable_days):
-    # Removes all days from a list from the unavailable list of the ChurchServer
-    # Try is used to get rid of the error thrown when unavailable Days is not in the unavailable days.
+    # Removes all TimeSpan Objects from a list from the unavailable list of the ChurchServer
     for selected_date in range(len(unavailable_days)):
-        print(iter(church_server.unavailable))
-        #church_server.unavailable.remove(unavailable_days[selected_date].description)
+        church_server.unavailable.remove(unavailable_days[selected_date])
 
