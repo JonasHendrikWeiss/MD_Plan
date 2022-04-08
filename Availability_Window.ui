@@ -28,6 +28,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="push_button_start_day">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>350</x>
@@ -80,6 +83,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="push_button_end_day">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>350</x>

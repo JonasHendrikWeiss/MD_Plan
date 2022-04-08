@@ -1,7 +1,7 @@
 import random
 import pandas
 from statistics import mean, median, stdev
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from docx import Document
 
 
@@ -77,9 +77,9 @@ class TimeSpan:
 
     def check_overlap(self, other):
         # TODO add functionality if day is one of start or end date
-        if other.during_timespan(self.start_date):
+        if other.during_timespan(self.start_date - timedelta(days=1)):
             return True
-        elif self.during_timespan(other.start_date):
+        elif self.during_timespan(other.start_date - timedelta(days=1)):
             return True
         else:
             return False

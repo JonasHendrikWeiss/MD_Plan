@@ -68,7 +68,7 @@ class Assignment_Window():
                 selected_list.append(Assignment_Window.view.listWidget.item(x).data(0x0100))
         return selected_list # 0x0100 is the integer for a Qt.UserRole
 
-    def test_connection():  # Function is only used if there is doubt whether a connect is working
+    def test_connection(self):  # Function is only used if there is doubt whether a connect is working
         print("Connection works")
     
     def add_server_objects( selected_object, list_servers):
@@ -89,8 +89,10 @@ class Assignment_Window():
             selected_object.addItem(item_to_add)
 
     def select_start_day(self):
-        Assignment_Window.start_date = Assignment_Window.view.calendarWidget.selectedDate().toPython()
-        Assignment_Window.view.label_start_day.setText(Assignment_Window.start_date.isoformat())
+        if Assignment_Window.view.comboBox_Churchservers.currentData() != None:
+            Assignment_Window.start_date = Assignment_Window.view.calendarWidget.selectedDate().toPython()
+            Assignment_Window.view.label_start_day.setText(Assignment_Window.start_date.isoformat())
+            Assignment_Window.view.push_button_end_day.setEnabled(True)
 
     def select_end_day(self):
         selected_end_time = Assignment_Window.view.calendarWidget.selectedDate().toPython()
@@ -101,6 +103,7 @@ class Assignment_Window():
         Assignment_Window.fill_list_with_unavailable(Assignment_Window.view.listWidget)
         Assignment_Window.start_date = None
         Assignment_Window.view.label_start_day.setText("Start Abmeldung")
+        Assignment_Window.view.push_button_end_day.setEnabled(False)
 
 
     
@@ -120,8 +123,7 @@ class Assignment_Window():
         selected_server = Assignment_Window.view.comboBox_Churchservers.currentData()
 
         #print(get_unavailable_dates(selected_server))
-        Assignment_Window.view.listWidget.clear()
-
+        Assignment_Window.clear_on_changed_server()
         Assignment_Window.add_timespan_object(Assignment_Window.view.listWidget, selected_server)
 
         Assignment_Window.view.listWidget.sortItems()
@@ -155,6 +157,7 @@ class Assignment_Window():
         Assignment_Window.view.listWidget.clear()
         Assignment_Window.start_date = None
         Assignment_Window.view.label_start_day.setText("Start Abmeldung")
+        Assignment_Window.view.push_button_end_day.setEnabled(False)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
