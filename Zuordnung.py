@@ -38,9 +38,9 @@ class ChurchServers:
             if timespan.check_overlap(self.unavailable[selected_unavailable]):  # Checks if there are any overlaps
                 overlap_list.append(self.unavailable[selected_unavailable]) # Mergeable TimeSpans are appended to a list
 
-            for selected_merge in range(len(overlap_list)):
-                self.unavailable.remove(overlap_list[selected_merge]) # removes the overlapping element
-                timespan = merge_timespan(timespan, overlap_list[selected_merge]) # merges all overlapping elements
+        for selected_merge in range(len(overlap_list)):
+            self.unavailable.remove(overlap_list[selected_merge]) # removes the overlapping element
+            timespan = merge_timespan(timespan, overlap_list[selected_merge]) # merges all overlapping elements
         self.unavailable.append(timespan)  # adds the final TimeSpan to the unavailable list
 
 
@@ -76,6 +76,7 @@ class TimeSpan:
             return False
 
     def check_overlap(self, other):
+        # TODO add functionality if day is one of start or end date
         if other.during_timespan(self.start_date):
             return True
         elif self.during_timespan(other.start_date):

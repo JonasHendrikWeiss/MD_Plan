@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 class data_storage():
-    def __init__(self, list_churchservers = [], list_services=[]):
+    def __init__(self, list_churchservers=[], list_services=[]):
         self.list_churchservers = list_churchservers
         self.list_services = list_services
 
@@ -30,10 +30,10 @@ def import_churchservers_from_dataframe(pdataframe, server_list):
         server_list.append(current_cserver)
 
 
-def list_to_json(list, dir_path=os.path.dirname(os.path.realpath(__file__)),
+def list_to_json(data_list, dir_path=os.path.dirname(os.path.realpath(__file__)),
                  filename="JSON"):
-    pandas.DataFrame([list]).to_json(path_or_buf=f"{dir_path}/{filename}",)
-    # if it crashed at [] around list. Removed it because the size of the data was increasing
+    pandas.DataFrame([data_list]).to_json(path_or_buf=f"{dir_path}/{filename}",)
+    # if the data increases in size look for double imports because if the dataframe is appended twice data doubles
 
 
 def load_TimeSpan(unavailable_list):

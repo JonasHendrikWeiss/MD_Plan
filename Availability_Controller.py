@@ -17,6 +17,7 @@ data = data_storage()
 # TODO replace strings in Churchserver.unavailable with TimeSpan objects and clear all data in the Churchserver objects
 class Assignment_Window():
     view = None
+    start_date = None
     data = data_storage()
     import_churchservers_from_dataframe(json_to_pdataframe(), data.list_churchservers)
 
@@ -54,11 +55,11 @@ class Assignment_Window():
         Assignment_Window.view.push_button_single_day.clicked.connect(Assignment_Window.unavailable_day)
         Assignment_Window.view.push_button_save.clicked.connect(Assignment_Window.initiate_saving)
         Assignment_Window.view.push_button_remove_day.clicked.connect(Assignment_Window.initiate_removal_days)
-        Assignment_Window.view.push_button_start_day.clicked.connect(Assignment_Window.print_yes)
+        Assignment_Window.view.push_button_start_day.clicked.connect(Assignment_Window.select_start_day)
+        Assignment_Window.view.push_button_end_day.clicked.connect(Assignment_Window.select_end_day)
 
         #sys.exit(app.exec())
 
-    
     def return_multi_selection():
         # returns all selected Items in a list
         selected_list = []
@@ -67,10 +68,8 @@ class Assignment_Window():
                 selected_list.append(Assignment_Window.view.listWidget.item(x).data(0x0100))
         return selected_list # 0x0100 is the integer for a Qt.UserRole
 
-
-    def print_yes(self):
-        print()
-    
+    def test_connection():  # Function is only used if there is doubt whether a connect is working
+        print("Connection works")
     
     def add_server_objects( selected_object, list_servers):
         # A function to add all Items of a given list as strings to a combobox
@@ -89,7 +88,21 @@ class Assignment_Window():
             item_to_add.setData(0x0100, selected_span)  # 0x0100 is the integer for a Qt.UserRole
             selected_object.addItem(item_to_add)
 
-                                    #userData=selected_span)
+    def select_start_day(self):
+        Assignment_Window.start_date = Assignment_Window.view.calendarWidget.selectedDate().toPython()
+        Assignment_Window.view.label_start_day.setText(Assignment_Window.start_date.isoformat())
+
+    def select_end_day(self):
+        selected_end_time = Assignment_Window.view.calendarWidget.selectedDate().toPython()
+        selected_server = Assignment_Window.view.comboBox_Churchservers.currentData()
+        new_timespan = TimeSpan(Assignment_Window.start_date, selected_end_time)
+        selected_server.add_unavailable(new_timespan)  # uses the add unavailable function to look and merge duplicates
+        # Resets the view and data so there is nothing carried over to the next operation
+        Assignment_Window.fill_list_with_unavailable(Assignment_Window.view.listWidget)
+        Assignment_Window.start_date = None
+        Assignment_Window.view.label_start_day.setText("Start Abmeldung")
+
+
     
     def fill_churchserver_selection_button(self):
         # Rebuild to do more in Availability Logic
@@ -101,15 +114,12 @@ class Assignment_Window():
         index_selected_grade = temporary_data[1].index(grade)
         Assignment_Window.add_server_objects(combobox_cservers, temporary_data[0][index_selected_grade])
         # Clears the list widget so old data is not carried over to a new church server
-        Assignment_Window.view.listWidget.clear()
-
-
-
+        Assignment_Window.clear_on_changed_server()
     
     def fill_list_with_unavailable(self):
         selected_server = Assignment_Window.view.comboBox_Churchservers.currentData()
 
-        print(get_unavailable_dates(selected_server))
+        #print(get_unavailable_dates(selected_server))
         Assignment_Window.view.listWidget.clear()
 
         Assignment_Window.add_timespan_object(Assignment_Window.view.listWidget, selected_server)
@@ -119,11 +129,11 @@ class Assignment_Window():
     def unavailable_day(self):
         selected_server = Assignment_Window.view.comboBox_Churchservers.currentData()
 
-
         if selected_server == None:
             # Is only relevant if the button is clicked for the first time without making any other selections
             print("No Selection")
             return
+        # returns the date of the calendar as a python Datetime object
         selected_datetime=Assignment_Window.view.calendarWidget.selectedDate().toPython()
         new_day = TimeSpan(selected_datetime, selected_datetime)  # Sets the start and end date to the same day
         selected_server.add_unavailable(new_day)  # uses the add unavailable function to look and merge duplicates
@@ -139,7 +149,12 @@ class Assignment_Window():
         remove_unavailable_days(church_server=selected_server,
                                 unavailable_days=current_selection)
         Assignment_Window.fill_list_with_unavailable(Assignment_Window.view.listWidget)
-        #TODO Rebuild this function because it doesnt work after the switch to TimeSpan Objects
+
+    def clear_on_changed_server():
+        # Clears all Data in the view and some other values so a new ChurchServer has no data of the old one
+        Assignment_Window.view.listWidget.clear()
+        Assignment_Window.start_date = None
+        Assignment_Window.view.label_start_day.setText("Start Abmeldung")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
