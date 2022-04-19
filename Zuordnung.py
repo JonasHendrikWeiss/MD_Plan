@@ -46,7 +46,7 @@ class ChurchServers:
 
 
 class ChurchService:
-    def __init__(self, number_md_needed, date, time = "Null"):
+    def __init__(self, number_md_needed, day, time = "Null"):
         # numberMD is the number of ChurchServers needed for the Church Service
         self.count = number_md_needed
         self.ListServingMD = []
@@ -57,8 +57,8 @@ class ChurchService:
         # date_time should be a datetime object
         #TODO readd the datetime of a Service
         self.time = time
-        # self.date is a Datetime object as a .isoformat() string
-        self.date = date
+        # self.day is a Datetime object as a .isoformat() string
+        self.date = day
         self.description = f"Messe am {self.date} mit {self.count} Messdienern"
 
 
