@@ -38,7 +38,7 @@ class Availability_Window():
         ui_file.close()
         #Assignment_Window.view.show()
 
-        #This section fills the combobox with data
+        # This section fills the combobox with data
         Availability_Window.view.comboBox_Grades.addItems(create_list_of_groups(
             Availability_Window.data.list_churchservers)[1])
         Availability_Window.view.comboBox_Grades.setCurrentIndex(-1)
@@ -57,8 +57,6 @@ class Availability_Window():
         Availability_Window.view.push_button_remove_day.clicked.connect(Availability_Window.initiate_removal_days)
         Availability_Window.view.push_button_start_day.clicked.connect(Availability_Window.select_start_day)
         Availability_Window.view.push_button_end_day.clicked.connect(Availability_Window.select_end_day)
-
-        #sys.exit(app.exec())
 
     def return_multi_selection():
         # returns all selected Items in a list
@@ -143,6 +141,7 @@ class Availability_Window():
     
     def initiate_saving(self):
         list_to_json(Availability_Window.data.list_churchservers)
+        print(f"Saving {len(Assignment_Window.data.list_churchservers)} MD")
 
     def initiate_removal_days(self):
         # Get the Server that is selected in the Church Server Combobox

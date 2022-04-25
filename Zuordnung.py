@@ -46,9 +46,11 @@ class ChurchServers:
 
 
 class ChurchService:
-    def __init__(self, number_md_needed, day, time = "Null"):
+    def __init__(self, number_cs_needed, number_leaders, day, time = "Null"):
         # numberMD is the number of ChurchServers needed for the Church Service
-        self.count = number_md_needed
+        self.count_churchservers = int(number_cs_needed)
+        self.count_leaders = int(number_leaders)
+        self.count = self.count_churchservers + self.count_leaders
         self.ListServingMD = []
         # NumberAllocatedMD shows the current amount of Church Servers that are allocated to the Service.
         # If the allocation is finished this number should be equal to number_md_needed

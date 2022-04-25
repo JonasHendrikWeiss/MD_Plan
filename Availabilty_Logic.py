@@ -13,7 +13,7 @@ import_churchservers_from_dataframe(json_to_pdataframe(), List_MD)
 
 
 
- # TODO Rebuild this as a dataframe
+
 def create_list_of_groups(list_all_servers):
     set_of_groups = set([])
     list_of_groups = []

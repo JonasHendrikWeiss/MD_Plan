@@ -10,15 +10,12 @@ from Assingment_Controller import Assignment_Window
 
 
 class Main_Window(QMainWindow):
-
     def __init__(self):
         super(Main_Window, self).__init__()
         self.initUI()
 
-
-
     def initUI(self):
-        #Import the view from an UI file
+        # Import the view from an UI file
         uic.loadUi("MainWindow.ui", self)
         self.show()
         self.pushButton_assignment.clicked.connect(Main_Window.start_window_assignment)
