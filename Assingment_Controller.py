@@ -7,14 +7,14 @@ from PySide6.QtWidgets import QApplication, QListWidgetItem
 
 from Zuordnung import TimeSpan
 from Availabilty_Logic import create_list_of_groups, remove_unavailable_days
-from Storage_Operations import import_churchservers_from_dataframe, json_to_pdataframe, list_to_json, data_storage
+from Storage_Operations import pickle_storage,unpickle_storage
 
 
 class Assignment_Window():
     view = None
     start_date = None
-    data = data_storage()
-    import_churchservers_from_dataframe(json_to_pdataframe(), data.list_churchservers)
+    data = unpickle_storage()
+    # import_churchservers_from_dataframe(json_to_pdataframe(), data.list_churchservers)
 
     def __init__(self):
         super().__init__()
@@ -45,7 +45,7 @@ class Assignment_Window():
             Assignment_Window.fill_list_with_unavailable)
         Assignment_Window.view.pushButton_save.clicked.connect(Assignment_Window.initiate_saving)
 
-    def return_multi_selection():
+    def return_multi_selection(self):
         # returns all selected Items in a list
         selected_list = []
         for x in range(Assignment_Window.view.listWidget.count()):
@@ -123,7 +123,7 @@ class Assignment_Window():
 
 
     def initiate_saving(self):
-        list_to_json(Assignment_Window.data.list_churchservers)
+        pickle_storage(Assignment_Window.data, filename="data_storage.pkl")
         print(f"Saving {len(Assignment_Window.data.list_churchservers)} MD")
 
 

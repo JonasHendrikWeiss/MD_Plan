@@ -8,15 +8,15 @@ from PySide6.QtWidgets import QApplication, QListWidgetItem
 from PySide6.QtGui import QPainter
 from Zuordnung import TimeSpan
 from Availabilty_Logic import create_list_of_groups, remove_unavailable_days
-from Storage_Operations import import_churchservers_from_dataframe, json_to_pdataframe, list_to_json, data_storage
+from Storage_Operations import unpickle_storage, pickle_storage, list_to_json, data_storage
 
 
 
 class Availability_Window():
     view = None
     start_date = None
-    data = data_storage()
-    import_churchservers_from_dataframe(json_to_pdataframe(), data.list_churchservers)
+    data = unpickle_storage()
+    # import_churchservers_from_dataframe(json_to_pdataframe(), data.list_churchservers)
 
 
     def __init__(self):
@@ -140,8 +140,8 @@ class Availability_Window():
         Availability_Window.fill_list_with_unavailable(Availability_Window.view.listWidget)
     
     def initiate_saving(self):
-        list_to_json(Availability_Window.data.list_churchservers)
-        print(f"Saving {len(Assignment_Window.data.list_churchservers)} MD")
+        pickle_storage(Availability_Window.data, filename="data_storage.pkl")
+        print(f"Saving {len(Availability_Window.data.list_churchservers)} MD")
 
     def initiate_removal_days(self):
         # Get the Server that is selected in the Church Server Combobox

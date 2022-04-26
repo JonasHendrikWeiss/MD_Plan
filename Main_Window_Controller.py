@@ -31,8 +31,8 @@ class Main_Window(QMainWindow):
 
     def start_window_availability(self):
         print("starting assignment Window")
-        a = Availability_Window()
-        a.view.show()
+        availability_window = Availability_Window()
+        availability_window.view.show()
 
     def start_window_churchservers(self):
         print("starting churchserver Window")

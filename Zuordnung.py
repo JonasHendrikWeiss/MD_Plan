@@ -10,9 +10,9 @@ List_Services = []
 statistic_list = []
 
 
-class ChurchServers:
+class ChurchServer:
     def __init__(self, lastname, firstname, abbreviation, unavailable=[], group="Null"):
-        # MD is used as an abbreviation of ChurchServers throughout the code
+        # MD is used as an abbreviation of ChurchServer throughout the code
         # Different Name Attribute of the church server
         self.lastname = lastname
         self.firstname = firstname
@@ -24,10 +24,13 @@ class ChurchServers:
         self.is_available = False
         # Shows if someone is able to serve at Church
         self.is_advanced = True
-        # Groups are used to organize the ChurchServers and make them more manageable
+        # Groups are used to organize the ChurchServer and make them more manageable
         # TODO Selecting two Church Servers in the same group will be preferred
         # "Null" is a String to show the group did not work
-        self.group = str(group)
+        if type(group) == type(ChurchGroup("samplegroup")):
+            group.add_churchserver(self)
+        else:
+            self.group = group
         self.counter = 0
         # List of TimeSpan objects when a ChurchServer is not available
         self.unavailable = unavailable
@@ -47,7 +50,7 @@ class ChurchServers:
 
 class ChurchService:
     def __init__(self, number_cs_needed, number_leaders, day, time = "Null"):
-        # numberMD is the number of ChurchServers needed for the Church Service
+        # numberMD is the number of ChurchServer needed for the Church Service
         self.count_churchservers = int(number_cs_needed)
         self.count_leaders = int(number_leaders)
         self.count = self.count_churchservers + self.count_leaders
@@ -106,15 +109,26 @@ def merge_timespan(first_time_span, other_time_span):
 
 # TODO remove all the old unused bits of code in this file and rename it
 
+class ChurchGroup():
+    def __init__(self, name, members=[], start_year=datetime.now().year):
+        self.name = name
+        self.members = list(members)
+        self.start_year= start_year
+
+    def add_churchserver(self, church_server):
+        # adds a churchserver to the ChurchGroup and also adds the link back to the ChurchGroup in the Churchserver
+        self.members.append(church_server)
+        church_server.group = self
+
 
 def create_church_servers(filepath, sheet, server_list):
     columns = ["Vorname", "Nachname", "Kürzel", "Schuljahr"]
     table_server = pandas.read_excel(filepath, sheet_name=sheet, header=0, engine="openpyxl",
                                      usecols=columns)
     for x in range(0, table_server.shape[0]):
-        server_list.append(ChurchServers(lastname=table_server.at[x, "Nachname"],
-                                         firstname=table_server.at[x, "Vorname"],
-                                         abbreviation=table_server.at[x, "Kürzel"]))
+        server_list.append(ChurchServer(lastname=table_server.at[x, "Nachname"],
+                                        firstname=table_server.at[x, "Vorname"],
+                                        abbreviation=table_server.at[x, "Kürzel"]))
 
 
 def create_availability(church_server):
@@ -194,7 +208,7 @@ if __name__ == "__main__":
     church_service_amount = 20
     church_servers_amount = 100
 
-    # Generation of ChurchServers
+    # Generation of ChurchServer
     create_church_servers("Liste_Messdiener_Computer.xlsx", "Kinder", List_MD)
     create_church_servers("Liste_Messdiener_Computer.xlsx", "Leiter", List_MD)
 

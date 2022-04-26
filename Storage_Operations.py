@@ -1,5 +1,5 @@
 from Zuordnung import *
-import pandas
+import pandas, pickle
 import os
 from datetime import datetime
 
@@ -10,23 +10,38 @@ class data_storage():
         self.list_services = list_services
 
 
+def pickle_storage(storage_object, dir_path=os.path.dirname(os.path.realpath(__file__)), filename="data_storage.pkl"):
+    pickle.dump(storage_object, file= open(dir_path+"/"+filename, 'wb'))
+    print(dir_path+filename)
+    print("pickled everything")
+
+
+def unpickle_storage(dir_path=os.path.dirname(os.path.realpath(__file__)), filename="data_storage.pkl"):
+    try:
+        imported_data = pickle.load(file= open(dir_path+"/"+filename, 'rb'))
+    except EOFError:
+        print("file doesnt exist or is empty")
+        imported_data = data_storage()
+    return imported_data
+
+
 def json_to_pdataframe(dir_path=os.path.dirname(os.path.realpath(__file__)), filname="JSON"):
     # returns a dataframe called pdataframe_json for further use in the program
-    pdataframe_json = pandas.read_json(path_or_buf=f"{dir_path}/{filname}", dtype=ChurchServers)
+    pdataframe_json = pandas.read_json(path_or_buf=f"{dir_path}/{filname}", dtype=ChurchServer)
     return pdataframe_json
 
 
 def import_churchservers_from_dataframe(pdataframe, server_list):
     for server in range(0, pdataframe.size):
         temp_list = []  # creates a temporary list for each server
-        if pdataframe.at[0, server]["unavailable"]:  # only uses ChurchServers which unavailable lists are not empty
+        if pdataframe.at[0, server]["unavailable"]:  # only uses ChurchServer which unavailable lists are not empty
             temp_list = load_TimeSpan(pdataframe.at[0, server]["unavailable"])
 
-        current_cserver = ChurchServers(lastname=pdataframe.at[0, server]["lastname"],
-                                        firstname=pdataframe.at[0, server]["firstname"],
-                                        abbreviation=pdataframe.at[0, server]["abbreviation"],
-                                        unavailable = temp_list,
-                                        group= pdataframe.at[0, server]["group"])
+        current_cserver = ChurchServer(lastname=pdataframe.at[0, server]["lastname"],
+                                       firstname=pdataframe.at[0, server]["firstname"],
+                                       abbreviation=pdataframe.at[0, server]["abbreviation"],
+                                       unavailable = temp_list,
+                                       group= pdataframe.at[0, server]["group"])
         server_list.append(current_cserver)
 
 
