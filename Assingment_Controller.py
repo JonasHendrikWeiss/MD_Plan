@@ -7,8 +7,8 @@ from PySide6.QtWidgets import QApplication, QListWidgetItem
 
 from Zuordnung import TimeSpan, ChurchService
 from Availabilty_Logic import add_grades_to_combobox, add_server_objects_listwidget, add_server_objects
-from Storage_Operations import pickle_storage,unpickle_storage
-from Assigment_Logic import fill_churchservice_combobox, handle_deletion_of_service
+from Storage_Operations import pickle_storage, unpickle_storage, reinitalize_churchservers
+from Assigment_Logic import fill_churchservice_combobox, handle_deletion_of_service, get_available_servers
 
 class Assignment_Window():
     view = None
@@ -52,6 +52,9 @@ class Assignment_Window():
         Assignment_Window.view.comboBox_Services.activated.connect(Assignment_Window.update_service_selection)
         Assignment_Window.view.pushButton_add_cserver.clicked.connect(Assignment_Window.add_server_to_service)
         Assignment_Window.view.pushButton_remove_cservers.clicked.connect(Assignment_Window.remove_server_from_service)
+        Assignment_Window.view.pushButton_fill_service.clicked.connect(Assignment_Window.test_connection)
+        Assignment_Window.view.checkBox_show_all_servers.clicked.connect(
+            Assignment_Window.fill_churchserver_selection_button)
 
     def return_multi_selection(self):
         # returns all selected Items in a list
@@ -69,9 +72,19 @@ class Assignment_Window():
     def fill_churchserver_selection_button(self):
         # Rebuild to do more in Availability Logic
         grade = Assignment_Window.view.comboBox_Grades.currentData()
+        if grade is None:
+            return
         combobox_cservers = Assignment_Window.view.comboBox_Churchservers
+        # selected_service is only used if checkbox_state is checked
+        selected_service = Assignment_Window.view.comboBox_Services.currentData()
         combobox_cservers.clear()
-        add_server_objects(combobox_cservers, grade.members)
+        checkbox_state = Assignment_Window.view.checkBox_show_all_servers.isChecked()
+
+        if checkbox_state is False and selected_service is not None:
+            list_available = get_available_servers(grade.members, selected_service.date)
+            add_server_objects(combobox_cservers, list_available)
+        else:
+            add_server_objects(combobox_cservers, grade.members)
 
     def initiate_saving(self):
         pickle_storage(Assignment_Window.data, filename="data_storage.pkl")
@@ -84,6 +97,7 @@ class Assignment_Window():
         number_leaders = Assignment_Window.view.spinBox_groupleader.value()
         # Creates a new ChurchService with all the collected data
         Assignment_Window.data.list_services.append(ChurchService(number_cs, number_leaders, date, time))
+        Assignment_Window.view.listWidget.clear()
         fill_churchservice_combobox(Assignment_Window.data, Assignment_Window.view.comboBox_Services)
 
     def delete_service(self):
@@ -106,6 +120,7 @@ class Assignment_Window():
         # adds all currently assigned ChurchServers to the listWidget
         Assignment_Window.view.listWidget.clear()
         add_server_objects_listwidget(Assignment_Window.view.listWidget, selected_service.current_churchservers)
+        Assignment_Window.fill_churchserver_selection_button(self)
 
     def add_server_to_service(self):
         selected_service = Assignment_Window.view.comboBox_Services.currentData()

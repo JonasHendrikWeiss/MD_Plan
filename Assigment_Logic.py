@@ -17,3 +17,13 @@ def fill_churchservice_combobox(storage, combobox_service):
 def handle_deletion_of_service(storage, service):
     # just removes a selected service from the list of services
     storage.list_services.remove(service)
+
+def get_available_servers(list_servers, date):
+    # Returns all available Servers on a given day in a list
+    list_available_servers = []
+    for selected_server_number in range(len(list_servers)):
+        selected_server = list_servers[selected_server_number]
+        if selected_server.is_available(date) == True:
+            list_available_servers.append(selected_server)
+
+    return list_available_servers

@@ -18,10 +18,6 @@ class ChurchServer:
         self.firstname = firstname
         self.fullname = f"{self.firstname} {self.lastname}"
         self.abbreviation = abbreviation
-        # Shows if someone is already in the current Messe
-        self.is_allocated = True
-        # Shows if someone has excused themselves
-        self.is_available = False
         # Shows if someone is able to serve at Church
         self.is_advanced = True
         # Groups are used to organize the ChurchServer and make them more manageable
@@ -45,6 +41,13 @@ class ChurchServer:
             self.unavailable.remove(overlap_list[selected_merge]) # removes the overlapping element
             timespan = merge_timespan(timespan, overlap_list[selected_merge]) # merges all overlapping elements
         self.unavailable.append(timespan)  # adds the final TimeSpan to the unavailable list
+
+    def is_available(self, checked_date):
+        for x in range(len(self.unavailable)):
+            if self.unavailable[x].during_timespan(checked_date) is True:
+                return False # Returns false if the date is inside of any timespan the ChurchServer is unavailable
+        return True
+
 
 
 

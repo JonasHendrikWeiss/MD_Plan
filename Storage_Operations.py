@@ -65,3 +65,13 @@ def load_TimeSpan(unavailable_list):
         date_end = datetime.fromtimestamp(stamp_end / 1e3).date()
         return_list.append(TimeSpan(date_start, date_end)) # creates a TimeSpan Object out of the timestamps
     return return_list
+
+
+def reinitalize_churchservers(list_of_cservers):
+    reinitalized_list = []
+    for c in range(len(list_of_cservers)):
+        selection = list_of_cservers[c]
+        reinitalized_list.append(ChurchServer(selection.lastname, selection.firstname, selection.abbreviation,
+                                              selection.group, selection.unavailable))
+        selection.group.members.remove(selection) # removes the person from the group so it isn't carried over
+    return reinitalized_list
