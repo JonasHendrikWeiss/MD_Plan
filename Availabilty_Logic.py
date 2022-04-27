@@ -1,6 +1,7 @@
 # the controller behind the availability page of the application
 from Storage_Operations import import_churchservers_from_dataframe, json_to_pdataframe
 import pandas
+from PySide6.QtWidgets import QListWidgetItem
 
 def get_amount_of_elements(list):
     set_of_list = set(list)
@@ -43,7 +44,6 @@ def create_dataframe_of_groups(list_all_servers):
     return pandas.DataFrame(create_list_of_groups(list_all_servers)[0])
 
 
-
 def get_unavailable_dates(selected_churchserver):
     # returns a list with the descriptions of unavailable days
     description_list=[]
@@ -57,3 +57,19 @@ def remove_unavailable_days(church_server, unavailable_days):
     for selected_date in range(len(unavailable_days)):
         church_server.unavailable.remove(unavailable_days[selected_date])
 
+def add_server_objects( selected_object, list_servers):
+    # A function to add all Items of a given list as strings to a combobox
+    for x in range(len(list_servers)):
+        selected_server = list_servers[x]
+        selected_object.addItem(selected_server.fullname, userData=selected_server) # adds the Abbreviation as a
+        # string and the object as userData
+
+
+def add_server_objects_listwidget(selected_object, list_servers):
+    for item_number in range(len(list_servers)):  # iterates through all possible TimeSpan objects
+        item_to_add = QListWidgetItem()
+        print(type(item_to_add))# Adds a temporary custom QListWidgetItem in order to support data
+        selected_server = list_servers[item_number]
+        item_to_add.setText(selected_server.fullname)
+        item_to_add.setData(0x0100, selected_server)  # 0x0100 is the integer for a Qt.UserRole
+        selected_object.addItem(item_to_add)

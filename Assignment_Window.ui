@@ -119,6 +119,9 @@
       <height>381</height>
      </size>
     </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
    </widget>
    <widget class="QPushButton" name="pushButton_delete_service">
     <property name="geometry">

@@ -54,13 +54,12 @@ class ChurchService:
         self.count_churchservers = int(number_cs_needed)
         self.count_leaders = int(number_leaders)
         self.count = self.count_churchservers + self.count_leaders
-        self.ListServingMD = []
+        self.current_churchservers = []
         # NumberAllocatedMD shows the current amount of Church Servers that are allocated to the Service.
         # If the allocation is finished this number should be equal to number_md_needed
-        self.NumberAllocatedMD = len(self.ListServingMD)
+        self.NumberAllocatedMD = len(self.current_churchservers)
         # Adds a time to each ChurchService
         # date_time should be a datetime object
-        #TODO readd the datetime of a Service
         self.time = time
         # self.day is a Datetime object as a .isoformat() string
         self.date = day
@@ -152,20 +151,20 @@ def is_available(church_server, church_service):
 
 def is_assigned(check_church_service, church_server):
     # the Function checks if a ChurchServer is already assigned to the Service
-    if check_church_service.ListServingMD.count(church_server.abbreviation) == 0:
+    if check_church_service.current_churchservers.count(church_server.abbreviation) == 0:
         church_server.is_allocated = False
     else:
         church_server.is_allocated = True
 
 
 def allocation_md(current_church_service, List = List_MD):
-    while len(current_church_service.ListServingMD) < current_church_service.count:
+    while len(current_church_service.current_churchservers) < current_church_service.count:
         selected_md = random.choice(List_MD)
         is_available(selected_md, current_church_service)
         if selected_md.is_available:
             is_assigned(current_church_service, selected_md)
             if not selected_md.is_allocated:
-                current_church_service.ListServingMD.append(selected_md.abbreviation)
+                current_church_service.current_churchservers.append(selected_md.abbreviation)
                 selected_md.counter = selected_md.counter + 1
             else:
                 pass
@@ -189,7 +188,7 @@ def print_plan_docx(list_services, document_name):
         new_string = "Messe: "
         # puts a string together in order to avoid a newline for every church server
         for x in range(0, current_service.count):
-            new_string = new_string + str(current_service.ListServingMD[x]) + ", "
+            new_string = new_string + str(current_service.current_churchservers[x]) + ", "
         document.add_paragraph(new_string)
     document.save(document_name)
 
@@ -220,7 +219,7 @@ if __name__ == "__main__":
     # Allocation of Church Server to Church Services
     for selected_church_server in range(0, church_service_amount):
         allocation_md(List_Services[selected_church_server])
-        # print(List_Services[selected_church_server].ListServingMD)
+        # print(List_Services[selected_church_server].current_churchservers)
 
 
     # Adds the counter values of each Church Server to a list

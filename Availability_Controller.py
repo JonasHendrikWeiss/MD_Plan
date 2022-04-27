@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QApplication, QListWidgetItem
 
 from PySide6.QtGui import QPainter
 from Zuordnung import TimeSpan
-from Availabilty_Logic import create_list_of_groups, remove_unavailable_days, add_grades_to_combobox
+from Availabilty_Logic import add_server_objects, remove_unavailable_days, add_grades_to_combobox
 from Storage_Operations import unpickle_storage, pickle_storage, list_to_json, data_storage
 
 
@@ -68,14 +68,8 @@ class Availability_Window():
 
     def test_connection(self):  # Function is only used if there is doubt whether a connect is working
         print("Connection works")
-    
-    def add_server_objects( selected_object, list_servers):
-        # A function to add all Items of a given list as strings to a combobox
-        for x in range(len(list_servers)):
-            selected_server = list_servers[x]
-            Full_Name = str(selected_server.firstname)
-            selected_object.addItem(selected_server.fullname, userData=selected_server) # adds the Abbreviation as a
-            # string and the object as userData
+
+
 
     def add_timespan_object(selected_object, churchserver):
         # Adds all the TimeSpan Objects to the selected object
@@ -110,7 +104,7 @@ class Availability_Window():
         grade = Availability_Window.view.comboBox_Grades.currentData()
         combobox_cservers = Availability_Window.view.comboBox_Churchservers
         combobox_cservers.clear()
-        Availability_Window.add_server_objects(combobox_cservers, grade.members)
+        add_server_objects(combobox_cservers, grade.members)
         # Clears the list widget so old data is not carried over to a new church server
         Availability_Window.clear_on_changed_server()
     
