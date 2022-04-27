@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QApplication, QListWidgetItem
 
 from PySide6.QtGui import QPainter
 from Zuordnung import TimeSpan
-from Availabilty_Logic import create_list_of_groups, remove_unavailable_days
+from Availabilty_Logic import create_list_of_groups, remove_unavailable_days, add_grades_to_combobox
 from Storage_Operations import unpickle_storage, pickle_storage, list_to_json, data_storage
 
 
@@ -39,8 +39,8 @@ class Availability_Window():
         #Assignment_Window.view.show()
 
         # This section fills the combobox with data
-        Availability_Window.view.comboBox_Grades.addItems(create_list_of_groups(
-            Availability_Window.data.list_churchservers)[1])
+        add_grades_to_combobox(Availability_Window.data, Availability_Window.view.comboBox_Grades)
+
         Availability_Window.view.comboBox_Grades.setCurrentIndex(-1)
         Availability_Window.view.comboBox_Grades.setPlaceholderText("Schuljahre")
         Availability_Window.view.comboBox_Churchservers.setPlaceholderText("Messdiener")
@@ -107,13 +107,10 @@ class Availability_Window():
     
     def fill_churchserver_selection_button(self):
         # Rebuild to do more in Availability Logic
-        grade = Availability_Window.view.comboBox_Grades.currentText()
+        grade = Availability_Window.view.comboBox_Grades.currentData()
         combobox_cservers = Availability_Window.view.comboBox_Churchservers
         combobox_cservers.clear()
-        list_all_servers = Availability_Window.data.list_churchservers
-        temporary_data = create_list_of_groups(list_all_servers)
-        index_selected_grade = temporary_data[1].index(grade)
-        Availability_Window.add_server_objects(combobox_cservers, temporary_data[0][index_selected_grade])
+        Availability_Window.add_server_objects(combobox_cservers, grade.members)
         # Clears the list widget so old data is not carried over to a new church server
         Availability_Window.clear_on_changed_server()
     

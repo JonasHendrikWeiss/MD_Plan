@@ -20,7 +20,7 @@ class Main_Window(QMainWindow):
         self.show()
         self.pushButton_assignment.clicked.connect(Main_Window.start_window_assignment)
         self.pushButton_availability.clicked.connect(Main_Window.start_window_availability)
-        self.pushButton_churchservers.clicked.connect(Main_Window.start_window_churchservers)
+        self.pushButton_churchservers.clicked.connect(Main_Window.start_window_churchserver_management)
         self.pushButton_settings.clicked.connect(Main_Window.start_window_settings)
 
 
@@ -34,8 +34,9 @@ class Main_Window(QMainWindow):
         availability_window = Availability_Window()
         availability_window.view.show()
 
-    def start_window_churchservers(self):
+    def start_window_churchserver_management(self):
         print("starting churchserver Window")
+        church_server_window = 1
 
     def start_window_settings(self):
         print("starting settings Window")

@@ -10,6 +10,9 @@
     <height>669</height>
    </rect>
   </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
   <property name="windowTitle">
    <string>Plan Schreiben</string>
   </property>
@@ -109,6 +112,12 @@
       <width>381</width>
       <height>381</height>
      </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>381</width>
+      <height>381</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_delete_service">

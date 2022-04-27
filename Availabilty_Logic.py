@@ -33,6 +33,10 @@ def create_list_of_groups(list_all_servers):
     return list_of_groups, order_of_groups
     # str_order_of_groups was removed because it was the same as order of groups
 
+def add_grades_to_combobox(storage, combobox):
+    list_grades = storage.list_groups
+    for selected_grade in range(len(list_grades)):
+        combobox.addItem(list_grades[selected_grade].name, userData=list_grades[selected_grade])
 
 def create_dataframe_of_groups(list_all_servers):
     #Takes a list and turns it into a pandas.DataFrame

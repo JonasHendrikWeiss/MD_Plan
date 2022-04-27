@@ -11,7 +11,7 @@ statistic_list = []
 
 
 class ChurchServer:
-    def __init__(self, lastname, firstname, abbreviation, unavailable=[], group="Null"):
+    def __init__(self, lastname, firstname, abbreviation, group="Null", unavailable=[]):
         # MD is used as an abbreviation of ChurchServer throughout the code
         # Different Name Attribute of the church server
         self.lastname = lastname

@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import (QWidget, QCalendarWidget, QPushButton,
 from PyQt6.QtCore import QDate, QVariant
 import sys
 from Storage_Operations import *
-from Zuordnung import create_church_servers, ChurchServers
+from Zuordnung import create_church_servers, ChurchServer
 List_MD = []
 # import all the churchservers from the JSON file
 import_churchservers_from_dataframe(json_to_pdataframe(), List_MD)
