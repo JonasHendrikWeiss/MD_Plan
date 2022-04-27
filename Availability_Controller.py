@@ -21,14 +21,11 @@ class Availability_Window():
 
     def __init__(self):
         super().__init__()
-        print(Availability_Window.data)
         self.initUI()
 
 
     def initUI(self):
         #Import the view from an UI file
-        pass
-
         ui_file_name = "Availability_Window.ui"
         ui_file = QFile(ui_file_name)
         if not ui_file.open(QIODevice.ReadOnly):

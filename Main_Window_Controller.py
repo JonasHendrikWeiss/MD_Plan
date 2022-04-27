@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QApplication
 
 from Availability_Controller import Availability_Window
 from Assingment_Controller import Assignment_Window
+from Data_Management_Controller import Data_Management_Window
 
 
 class Main_Window(QMainWindow):
@@ -20,7 +21,7 @@ class Main_Window(QMainWindow):
         self.show()
         self.pushButton_assignment.clicked.connect(Main_Window.start_window_assignment)
         self.pushButton_availability.clicked.connect(Main_Window.start_window_availability)
-        self.pushButton_churchservers.clicked.connect(Main_Window.start_window_churchserver_management)
+        self.pushButton_churchservers.clicked.connect(Main_Window.start_window_data_management)
         self.pushButton_settings.clicked.connect(Main_Window.start_window_settings)
 
 
@@ -34,9 +35,10 @@ class Main_Window(QMainWindow):
         availability_window = Availability_Window()
         availability_window.view.show()
 
-    def start_window_churchserver_management(self):
-        print("starting churchserver Window")
-        church_server_window = 1
+    def start_window_data_management(self):
+        print("starting data management Window")
+        data_management_window = Data_Management_Window()
+        data_management_window.view.show()
 
     def start_window_settings(self):
         print("starting settings Window")

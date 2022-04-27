@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ChurchServer_Window</class>
+ <widget class="QMainWindow" name="ChurchServer_Window">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>968</width>
+    <height>489</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Messdiener und Schuljahre verwalten</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="pushButton_save">
+    <property name="geometry">
+     <rect>
+      <x>860</x>
+      <y>410</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Speichern</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="push_button_new_churchserver">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>301</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Neuen Messdiener anlegen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="push_button_modify_churchserver">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>160</y>
+      <width>301</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bestehenden Messdiener
+bearbeiten</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Grades">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>220</y>
+      <width>141</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="insertPolicy">
+     <enum>QComboBox::InsertAlphabetically</enum>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_Churchservers">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>220</y>
+      <width>141</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="insertPolicy">
+     <enum>QComboBox::InsertAlphabetically</enum>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="push_button_modify_churchgroup">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>160</y>
+      <width>301</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bestehendes Schuljahr
+bearbeiten</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="push_button_new_churchgroup">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>20</y>
+      <width>301</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Neues Schuljahr anlegen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="push_button_recalculate_names">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>560</x>
+      <y>300</y>
+      <width>301</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Schuljahresnamen neu 
+berechnen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="push_button_reset_counter">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>300</y>
+      <width>301</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Counter Zurücksetzen</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
