@@ -5,10 +5,10 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QListWidgetItem
 
 
-from Zuordnung import TimeSpan
+from Zuordnung import TimeSpan, ChurchService
 from Availabilty_Logic import add_grades_to_combobox
 from Storage_Operations import pickle_storage,unpickle_storage
-
+from Assigment_Logic import fill_churchservice_combobox, handle_deletion_of_service
 
 class Assignment_Window():
     view = None
@@ -31,6 +31,10 @@ class Assignment_Window():
             sys.exit(-1)
         Assignment_Window.view = QUiLoader().load(ui_file)
         ui_file.close()
+        # Fill the Window with initial Data
+        # fill the ChurchService combobox initially
+        fill_churchservice_combobox(Assignment_Window.data, Assignment_Window.view.comboBox_Services)
+        # Fill the grade selection combobox
         add_grades_to_combobox(Assignment_Window.data, Assignment_Window.view.comboBox_Grades)
         Assignment_Window.view.comboBox_Grades.setCurrentIndex(-1)
         Assignment_Window.view.comboBox_Grades.setPlaceholderText("Schuljahre")
@@ -43,6 +47,8 @@ class Assignment_Window():
         Assignment_Window.view.comboBox_Churchservers.activated.connect(
             Assignment_Window.test_connection)
         Assignment_Window.view.pushButton_save.clicked.connect(Assignment_Window.initiate_saving)
+        Assignment_Window.view.pushButton_add_service.clicked.connect(Assignment_Window.create_new_service)
+        Assignment_Window.view.pushButton_delete_service.clicked.connect(Assignment_Window.delete_service)
 
     def return_multi_selection(self):
         # returns all selected Items in a list
@@ -54,6 +60,7 @@ class Assignment_Window():
 
     def test_connection(self):  # Function is only used if there is doubt whether a connect is working
         print("Connection works")
+        print(type(Assignment_Window.view.timeEdit.time().toPython()))
 
     def add_server_objects( selected_object, list_servers):
         # A function to add all Items of a given list as strings to a combobox
@@ -61,16 +68,6 @@ class Assignment_Window():
             selected_server = list_servers[x]
             selected_object.addItem(selected_server.fullname, userData=selected_server) # adds the Abbreviation as a
             # string and the object as userData
-
-    def add_timespan_object(selected_object, churchserver):
-        # Adds all the TimeSpan Objects to the selected object
-        for span_number in range(len(churchserver.unavailable)):  # iterates through all possible TimeSpan objects
-            item_to_add = QListWidgetItem()  # Adds a temporary custom QListWidgetItem in order to support data
-            selected_span = churchserver.unavailable[span_number]
-            item_to_add.setText(selected_span.description)
-            item_to_add.setData(0x0100, selected_span)  # 0x0100 is the integer for a Qt.UserRole
-            selected_object.addItem(item_to_add)
-
 
     def fill_churchserver_selection_button(self):
         # Rebuild to do more in Availability Logic
@@ -83,7 +80,22 @@ class Assignment_Window():
         pickle_storage(Assignment_Window.data, filename="data_storage.pkl")
         print(f"Saving {len(Assignment_Window.data.list_churchservers)} MD")
 
+    def create_new_service(self):
+        time = Assignment_Window.view.timeEdit.time().toPython()
+        date = Assignment_Window.view.calendarWidget.selectedDate().toPython()
+        number_cs = Assignment_Window.view.spinBox_cserver.value()
+        number_leaders = Assignment_Window.view.spinBox_groupleader.value()
+        # Creates a new ChurchService with all the collected data
+        Assignment_Window.data.list_services.append(ChurchService(number_cs, number_leaders, date, time))
+        fill_churchservice_combobox(Assignment_Window.data, Assignment_Window.view.comboBox_Services)
 
+    def delete_service(self):
+        selected_service = Assignment_Window.view.comboBox_Services.currentData()
+        if selected_service is None:
+            return  # Handles the case when there is no service left
+        handle_deletion_of_service(Assignment_Window.data, selected_service)
+        # fills the churchservice combobox with new data
+        fill_churchservice_combobox(Assignment_Window.data, Assignment_Window.view.comboBox_Services)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import random
 import pandas
 from statistics import mean, median, stdev
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, time
 from docx import Document
 
 
@@ -49,7 +49,7 @@ class ChurchServer:
 
 
 class ChurchService:
-    def __init__(self, number_cs_needed, number_leaders, day, time = "Null"):
+    def __init__(self, number_cs_needed, number_leaders, day, time = time(11,15)):
         # numberMD is the number of ChurchServer needed for the Church Service
         self.count_churchservers = int(number_cs_needed)
         self.count_leaders = int(number_leaders)
@@ -64,7 +64,8 @@ class ChurchService:
         self.time = time
         # self.day is a Datetime object as a .isoformat() string
         self.date = day
-        self.description = f"Messe am {self.date} mit {self.count} Messdienern"
+        # time.strftime('%H:%M') outputs the Hour and minutes of a time
+        self.description = f"Messe am {self.date.isoformat()} um {time.strftime('%H:%M')} \n mit {self.count} Messdienern"
 
 
 class TimeSpan:

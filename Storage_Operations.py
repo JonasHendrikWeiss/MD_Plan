@@ -65,26 +65,3 @@ def load_TimeSpan(unavailable_list):
         date_end = datetime.fromtimestamp(stamp_end / 1e3).date()
         return_list.append(TimeSpan(date_start, date_end)) # creates a TimeSpan Object out of the timestamps
     return return_list
-
-
-
-# delete if seen only used once
-
-
-def create_list_of_groups(list_all_servers):
-    set_of_groups = set([])
-    list_of_groups = []
-    for server in range(len(list_all_servers)):
-        set_of_groups.add(list_all_servers[server].group)
-    order_of_groups = list(set_of_groups)
-    # maps the list and turns all items into integers to sort them by value more easily
-    order_of_groups = list(map(int, order_of_groups))
-    order_of_groups.sort()
-    # Turns the integers back into strings
-    order_of_groups = list(map(str, order_of_groups))
-    for group_amount in range(len(set_of_groups)):
-        list_of_groups.append([])
-    for server in range(len(list_all_servers)):
-        list_of_groups[order_of_groups.index(list_all_servers[server].group)].append(list_all_servers[server])
-    return list_of_groups, order_of_groups
-

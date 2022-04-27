@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1055</width>
-    <height>669</height>
+    <width>1075</width>
+    <height>696</height>
    </rect>
   </property>
   <property name="cursor">
@@ -35,8 +35,8 @@
      <rect>
       <x>40</x>
       <y>250</y>
-      <width>191</width>
-      <height>22</height>
+      <width>251</width>
+      <height>61</height>
      </rect>
     </property>
     <property name="insertPolicy">
@@ -46,8 +46,8 @@
    <widget class="QComboBox" name="comboBox_Churchservers">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>410</y>
+      <x>780</x>
+      <y>440</y>
       <width>141</width>
       <height>22</height>
      </rect>
@@ -107,8 +107,8 @@
    <widget class="QListWidget" name="listWidget">
     <property name="geometry">
      <rect>
-      <x>610</x>
-      <y>10</y>
+      <x>620</x>
+      <y>40</y>
       <width>381</width>
       <height>381</height>
      </rect>
@@ -163,8 +163,8 @@ Messdienern füllen</string>
    <widget class="QPushButton" name="pushButton_add_cserver">
     <property name="geometry">
      <rect>
-      <x>840</x>
-      <y>452</y>
+      <x>850</x>
+      <y>482</y>
       <width>141</width>
       <height>41</height>
      </rect>
@@ -176,8 +176,8 @@ Messdienern füllen</string>
    <widget class="QPushButton" name="pushButton_save">
     <property name="geometry">
      <rect>
-      <x>950</x>
-      <y>570</y>
+      <x>960</x>
+      <y>600</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -189,8 +189,8 @@ Messdienern füllen</string>
    <widget class="QComboBox" name="comboBox_Grades">
     <property name="geometry">
      <rect>
-      <x>610</x>
-      <y>410</y>
+      <x>620</x>
+      <y>440</y>
       <width>141</width>
       <height>22</height>
      </rect>
@@ -215,8 +215,8 @@ Messdienern füllen</string>
    <widget class="QPushButton" name="pushButton_remove_cservers">
     <property name="geometry">
      <rect>
-      <x>840</x>
-      <y>510</y>
+      <x>850</x>
+      <y>540</y>
       <width>141</width>
       <height>41</height>
      </rect>
@@ -229,8 +229,8 @@ entfernen</string>
    <widget class="QCheckBox" name="checkBox_show_all_servers">
     <property name="geometry">
      <rect>
-      <x>930</x>
-      <y>400</y>
+      <x>940</x>
+      <y>430</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -240,13 +240,74 @@ entfernen</string>
  anzeigen</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>40</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Uhrzeit Messe</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QTimeEdit" name="timeEdit">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>80</y>
+      <width>118</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="buttonSymbols">
+     <enum>QAbstractSpinBox::UpDownArrows</enum>
+    </property>
+    <property name="accelerated">
+     <bool>false</bool>
+    </property>
+    <property name="correctionMode">
+     <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+    </property>
+    <property name="showGroupSeparator" stdset="0">
+     <bool>false</bool>
+    </property>
+    <property name="time">
+     <time>
+      <hour>11</hour>
+      <minute>15</minute>
+      <second>0</second>
+     </time>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lable_selected_Service">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>0</y>
+      <width>381</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ausgewählte Messe</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1055</width>
+     <width>1075</width>
      <height>21</height>
     </rect>
    </property>
