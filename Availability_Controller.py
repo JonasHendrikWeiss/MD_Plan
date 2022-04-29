@@ -151,3 +151,5 @@ if __name__ == "__main__":
     b = Availability_Window()
     b.view.show()
     app.exec()
+
+
