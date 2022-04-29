@@ -10,6 +10,16 @@ from Availabilty_Logic import add_grades_to_combobox, add_server_objects_listwid
 from Storage_Operations import pickle_storage, unpickle_storage, reinitalize_churchservers
 from Assigment_Logic import fill_churchservice_combobox, handle_deletion_of_service, get_available_servers
 
+
+def return_multi_selection(object):
+    # returns all selected Items in a list
+    selected_list = []
+    for x in range(object.count()):
+        if object.item(x).isSelected() == True:
+            selected_list.append(object.item(x).data(0x0100))
+    return selected_list # 0x0100 is the integer for a Qt.UserRole
+
+
 class Assignment_Window():
     view = None
     start_date = None
@@ -56,13 +66,7 @@ class Assignment_Window():
         Assignment_Window.view.checkBox_show_all_servers.clicked.connect(
             Assignment_Window.fill_churchserver_selection_button)
 
-    def return_multi_selection(self):
-        # returns all selected Items in a list
-        selected_list = []
-        for x in range(Assignment_Window.view.listWidget.count()):
-            if Assignment_Window.view.listWidget.item(x).isSelected() == True:
-                selected_list.append(Assignment_Window.view.listWidget.item(x).data(0x0100))
-        return selected_list # 0x0100 is the integer for a Qt.UserRole
+
 
     def test_connection(self):  # Function is only used if there is doubt whether a connect is working
         print("Connection works")
@@ -135,7 +139,7 @@ class Assignment_Window():
 
     def remove_server_from_service(self):
         selected_service = Assignment_Window.view.comboBox_Services.currentData()
-        selected_server_list = Assignment_Window.return_multi_selection(Assignment_Window.view.listWidget)
+        selected_server_list = return_multi_selection(Assignment_Window.view.listWidget)
         for selected_server_number in range(len(selected_server_list)):
             selected_server = selected_server_list[selected_server_number] # iterates through all elements of the list
             selected_service.current_churchservers.remove(selected_server) # removes all selected servers

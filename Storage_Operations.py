@@ -10,6 +10,11 @@ class data_storage():
         self.list_services = list_services
         self.list_groups = list_groups
 
+    def delete_churchserver(self, churchserver):
+        grade_server = churchserver.group
+        grade_server.members.remove(churchserver)
+        self.list_churchservers.remove(churchserver)
+
 def pickle_storage(storage_object, dir_path=os.path.dirname(os.path.realpath(__file__)), filename="data_storage.pkl"):
     pickle.dump(storage_object, file= open(dir_path+"/"+filename, 'wb'))
     print(dir_path+filename)
