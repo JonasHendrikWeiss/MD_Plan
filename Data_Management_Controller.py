@@ -5,16 +5,20 @@ from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow, QDialog
 from PySide6.QtWidgets import QApplication
 from Storage_Operations import unpickle_storage
-from Zuordnung import ChurchServer
+from Zuordnung import ChurchServer, ChurchGroup
 from Availability_Controller import Availability_Window, add_grades_to_combobox
 from Availabilty_Logic import add_server_objects_listwidget, add_server_objects
 from Assingment_Controller import return_multi_selection, fill_churchservice_combobox
+from datetime import datetime
 
+
+# TODO add a check if an abbreviation already exists and handle that case
 
 def accept_new_servers():
     data = Data_Management_Window.data
     data.list_churchservers.append(Data_Management_Window.temporary_servers)
     data.list_churchservers.append(Data_Management_Window.temporary_servers)
+
 
 def accept_edit_server():
     # TODO rebuilt this using a setter function
@@ -29,6 +33,30 @@ def accept_edit_server():
     # Updates the view if the name is changed
     Data_Management_Window.fill_churchserver_selection_button(dialog)
 
+
+def accept_new_group():
+    selected_start_year = Data_Management_Window.current_dialog.dateEdit.date().toPython().year
+    description_grade= Data_Management_Window.current_dialog.lineEdit_name.text()
+    Data_Management_Window.data.list_groups.append(ChurchGroup(description_grade, start_year=selected_start_year))
+
+    update_churchserver_comboboxes()
+
+
+def accept_edit_group():
+    print("accepted edit")
+    selected_grade = Data_Management_Window.view.comboBox_Grades_2.currentData()
+    selected_start_year = Data_Management_Window.current_dialog.dateEdit.date().toPython().year
+    description_grade= Data_Management_Window.current_dialog.lineEdit_name.text()
+    selected_grade.name = description_grade
+    selected_grade.start_year = selected_start_year
+    update_churchserver_comboboxes()
+
+
+def update_churchserver_comboboxes():
+    Data_Management_Window.view.comboBox_Grades.clear()
+    Data_Management_Window.view.comboBox_Grades_2.clear()
+    add_grades_to_combobox(Data_Management_Window.data, Data_Management_Window.view.comboBox_Grades)
+    add_grades_to_combobox(Data_Management_Window.data, Data_Management_Window.view.comboBox_Grades_2)
 
 def reset_temporary_data():
     Data_Management_Window.temporary_servers = []
@@ -50,7 +78,7 @@ def remove_server_from_list():
     for x in range(len(servers_to_remove)):
         Data_Management_Window.temporary_servers.remove(servers_to_remove[x])
     update_temporary_list()  # Updates the view to match the data
-    Data_Management_Window.fill_churchserver_selection_button(dialog)
+    Data_Management_Window.fill_churchserver_selection_button(new_server_dialog)
 
 
 def delete_server():
@@ -87,6 +115,7 @@ class Data_Management_Window(QMainWindow):
         ui_file.close()
         # Fill the grade selection combobox
         add_grades_to_combobox(Data_Management_Window.data, Data_Management_Window.view.comboBox_Grades)
+        add_grades_to_combobox(Data_Management_Window.data, Data_Management_Window.view.comboBox_Grades_2)
         Data_Management_Window.view.comboBox_Grades.setCurrentIndex(-1)
         Data_Management_Window.view.comboBox_Grades.setPlaceholderText("Schuljahre")
         Data_Management_Window.view.comboBox_Churchservers.setPlaceholderText("Messdiener")
@@ -95,13 +124,16 @@ class Data_Management_Window(QMainWindow):
         # Connection of buttons in the view
         Data_Management_Window.view.push_button_new_churchserver.clicked.connect(
             Data_Management_Window.open_new_churchserver_dialog)
+        Data_Management_Window.view.push_button_new_churchgroup.clicked.connect(
+            Data_Management_Window.open_new_churchgroup_dialog)
         Data_Management_Window.view.push_button_modify_churchserver.clicked.connect(
             Data_Management_Window.open_edit_churchserver_dialog)
+        Data_Management_Window.view.push_button_modify_churchgroup.clicked.connect(
+            Data_Management_Window.open_edit_churchgroup_dialog)
         Data_Management_Window.view.comboBox_Grades.activated.connect(
             Data_Management_Window.fill_churchserver_selection_button)
         Data_Management_Window.view.comboBox_Churchservers.activated.connect(
             Data_Management_Window.activate_modify_button)
-
 
     def open_new_churchserver_dialog(self):
         # Open the view of the dialog
@@ -145,7 +177,50 @@ class Data_Management_Window(QMainWindow):
         edit_server_dialog.comboBox_Grades.setCurrentIndex(
             edit_server_dialog.comboBox_Grades.findData(Data_Management_Window.temporary_server.group))
 
+
         edit_server_dialog.exec()
+
+    def open_edit_churchgroup_dialog(self):
+        # Open the view of the dialog
+        ui_file_name = "Dialog_Edit_Group.ui"
+        ui_file = QFile(ui_file_name)
+        if not ui_file.open(QIODevice.ReadOnly):
+            print(f"Cannot open {ui_file_name}: {ui_file.errorString()}")
+            sys.exit(-1)
+        Data_Management_Window.current_dialog = QUiLoader().load(ui_file)
+        edit_server_dialog = Data_Management_Window.current_dialog
+        ui_file.close()
+        edit_server_dialog.show()
+
+        selected_grade = Data_Management_Window.view.comboBox_Grades_2.currentData()
+        add_server_objects_listwidget(edit_server_dialog.listWidget, selected_grade.members)
+        # converts the integer startyear attribute into a datetime object in order to add it to the view
+        edit_server_dialog.dateEdit.setDate(datetime.strptime(str(selected_grade.start_year), "%Y").date())
+        edit_server_dialog.lineEdit_name.setText(selected_grade.name)
+
+        edit_server_dialog.accepted.connect(accept_edit_group)
+        edit_server_dialog.rejected.connect(reset_temporary_data)
+        edit_server_dialog.exec()
+
+    def open_new_churchgroup_dialog(self):
+        # Open the view of the dialog
+        ui_file_name = "Dialog_New_Group.ui"
+        ui_file = QFile(ui_file_name)
+        if not ui_file.open(QIODevice.ReadOnly):
+            print(f"Cannot open {ui_file_name}: {ui_file.errorString()}")
+            sys.exit(-1)
+        Data_Management_Window.current_dialog = QUiLoader().load(ui_file)
+        edit_server_dialog = Data_Management_Window.current_dialog
+        ui_file.close()
+        edit_server_dialog.show()
+        edit_server_dialog.dateEdit.setDate(datetime.now())
+        edit_server_dialog.lineEdit_name.setText("4")
+
+        edit_server_dialog.accepted.connect(accept_new_group)
+        edit_server_dialog.rejected.connect(reset_temporary_data)
+
+        edit_server_dialog.exec()
+
 
 
 
