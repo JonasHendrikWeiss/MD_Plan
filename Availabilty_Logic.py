@@ -62,7 +62,7 @@ def add_server_objects( selected_object, list_servers):
     for x in range(len(list_servers)):
         selected_server = list_servers[x]
         selected_object.addItem(selected_server.fullname, userData=selected_server) # adds the Abbreviation as a
-        # string and the object as userData
+        # string and the an_object as userData
 
 
 def add_server_objects_listwidget(selected_object, list_servers):

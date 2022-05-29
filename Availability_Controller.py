@@ -69,7 +69,7 @@ class Availability_Window():
 
 
     def add_timespan_object(selected_object, churchserver):
-        # Adds all the TimeSpan Objects to the selected object
+        # Adds all the TimeSpan Objects to the selected an_object
         for span_number in range(len(churchserver.unavailable)):  # iterates through all possible TimeSpan objects
             item_to_add = QListWidgetItem() # Adds a temporary custom QListWidgetItem in order to support data
             selected_span = churchserver.unavailable[span_number]
@@ -121,7 +121,7 @@ class Availability_Window():
             # Is only relevant if the button is clicked for the first time without making any other selections
             print("No Selection")
             return
-        # returns the date of the calendar as a python Datetime object
+        # returns the date of the calendar as a python Datetime an_object
         selected_datetime=Availability_Window.view.calendarWidget.selectedDate().toPython()
         new_day = TimeSpan(selected_datetime, selected_datetime)  # Sets the start and end date to the same day
         selected_server.add_unavailable(new_day)  # uses the add unavailable function to look and merge duplicates

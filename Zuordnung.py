@@ -62,9 +62,9 @@ class ChurchService:
         # If the allocation is finished this number should be equal to number_md_needed
         self.NumberAllocatedMD = len(self.current_churchservers)
         # Adds a time to each ChurchService
-        # date_time should be a datetime object
+        # date_time should be a datetime an_object
         self.time = time
-        # self.day is a Datetime object as a .isoformat() string
+        # self.day is a Datetime an_object as a .isoformat() string
         self.date = day
         # time.strftime('%H:%M') outputs the Hour and minutes of a time
         self.description = f"Messe am {self.date.isoformat()} um {time.strftime('%H:%M')} \n mit {self.count} Messdienern"

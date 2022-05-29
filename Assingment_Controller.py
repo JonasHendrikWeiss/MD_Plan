@@ -11,12 +11,12 @@ from Storage_Operations import pickle_storage, unpickle_storage, reinitalize_chu
 from Assigment_Logic import fill_churchservice_combobox, handle_deletion_of_service, get_available_servers
 
 
-def return_multi_selection(object):
+def return_multi_selection(an_object):
     # returns all selected Items in a list
     selected_list = []
-    for x in range(object.count()):
-        if object.item(x).isSelected() == True:
-            selected_list.append(object.item(x).data(0x0100))
+    for x in range(an_object.count()):
+        if an_object.item(x).isSelected() == True:
+            selected_list.append(an_object.item(x).data(0x0100))
     return selected_list # 0x0100 is the integer for a Qt.UserRole
 
 

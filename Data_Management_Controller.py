@@ -194,7 +194,7 @@ class Data_Management_Window(QMainWindow):
 
         selected_grade = Data_Management_Window.view.comboBox_Grades_2.currentData()
         add_server_objects_listwidget(edit_server_dialog.listWidget, selected_grade.members)
-        # converts the integer startyear attribute into a datetime object in order to add it to the view
+        # converts the integer startyear attribute into a datetime an_object in order to add it to the view
         edit_server_dialog.dateEdit.setDate(datetime.strptime(str(selected_grade.start_year), "%Y").date())
         edit_server_dialog.lineEdit_name.setText(selected_grade.name)
 
