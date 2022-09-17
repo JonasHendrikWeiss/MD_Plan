@@ -148,10 +148,12 @@ class Assignment_Window():
         Assignment_Window.update_service_selection(Assignment_Window)
 
     def remove_server_from_service(self):
-        selected_service = Assignment_Window.view.comboBox_Services.currentData()
-        selected_server_list = return_multi_selection(Assignment_Window.view.listWidget)
+        selected_service = Assignment_Window.view.listWidget_service_selection.currentItem().data(0x0100)
+        selected_server_list = return_multi_selection(Assignment_Window.view.listWidget_server_in_service)
         for selected_server_number in range(len(selected_server_list)):
             selected_server = selected_server_list[selected_server_number] # iterates through all elements of the list
+            print(selected_server)
+            print(selected_service.current_churchservers)
             selected_service.current_churchservers.remove(selected_server) # removes all selected servers
         # Updates the view in order to correctly display the data
         Assignment_Window.update_service_selection(Assignment_Window)
