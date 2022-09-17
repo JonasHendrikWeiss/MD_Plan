@@ -65,10 +65,11 @@ def add_server_objects( selected_object, list_servers):
         # string and the an_object as userData
 
 
-def add_server_objects_listwidget(selected_object, list_servers):
-    for item_number in range(len(list_servers)):  # iterates through all possible TimeSpan objects
+def add_objects_listwidget(selected_object, list_servers):
+    selected_object.clear()
+    for item_number in range(len(list_servers)):  # iterates through all possible objects in list
         item_to_add = QListWidgetItem()
-        print(type(item_to_add))# Adds a temporary custom QListWidgetItem in order to support data
+        #print(type(item_to_add))# Adds a temporary custom QListWidgetItem in order to support data
         selected_server = list_servers[item_number]
         item_to_add.setText(selected_server.fullname)
         item_to_add.setData(0x0100, selected_server)  # 0x0100 is the integer for a Qt.UserRole

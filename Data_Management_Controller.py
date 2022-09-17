@@ -7,8 +7,8 @@ from PySide6.QtWidgets import QApplication
 from Storage_Operations import unpickle_storage
 from Zuordnung import ChurchServer, ChurchGroup
 from Availability_Controller import Availability_Window, add_grades_to_combobox
-from Availabilty_Logic import add_server_objects_listwidget, add_server_objects
-from Assingment_Controller import return_multi_selection, fill_churchservice_combobox
+from Availabilty_Logic import add_objects_listwidget, add_server_objects
+from Assingment_Controller import return_multi_selection, fill_churchservice_list
 from datetime import datetime
 
 
@@ -66,7 +66,7 @@ def reset_temporary_data():
 def update_temporary_list():
     new_server_dialog= Data_Management_Window.current_dialog
     new_server_dialog.listWidget.clear()
-    add_server_objects_listwidget(new_server_dialog.listWidget, Data_Management_Window.temporary_servers)
+    add_objects_listwidget(new_server_dialog.listWidget, Data_Management_Window.temporary_servers)
 
 
 def remove_server_from_list():
@@ -193,7 +193,7 @@ class Data_Management_Window(QMainWindow):
         edit_server_dialog.show()
 
         selected_grade = Data_Management_Window.view.comboBox_Grades_2.currentData()
-        add_server_objects_listwidget(edit_server_dialog.listWidget, selected_grade.members)
+        add_objects_listwidget(edit_server_dialog.listWidget, selected_grade.members)
         # converts the integer startyear attribute into a datetime an_object in order to add it to the view
         edit_server_dialog.dateEdit.setDate(datetime.strptime(str(selected_grade.start_year), "%Y").date())
         edit_server_dialog.lineEdit_name.setText(selected_grade.name)

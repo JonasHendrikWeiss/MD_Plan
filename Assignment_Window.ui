@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1075</width>
-    <height>696</height>
+    <width>1197</width>
+    <height>916</height>
    </rect>
   </property>
   <property name="cursor">
@@ -28,32 +28,6 @@
     </property>
     <property name="gridVisible">
      <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_Services">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>250</y>
-      <width>251</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="insertPolicy">
-     <enum>QComboBox::InsertAlphabetically</enum>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox_Churchservers">
-    <property name="geometry">
-     <rect>
-      <x>780</x>
-      <y>440</y>
-      <width>141</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="insertPolicy">
-     <enum>QComboBox::InsertAlphabetically</enum>
     </property>
    </widget>
    <widget class="QSpinBox" name="spinBox_groupleader">
@@ -104,13 +78,13 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QListWidget" name="listWidget">
+   <widget class="QListWidget" name="listWidget_server_in_service">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>40</y>
-      <width>381</width>
-      <height>381</height>
+      <x>610</x>
+      <y>30</y>
+      <width>391</width>
+      <height>391</height>
      </rect>
     </property>
     <property name="minimumSize">
@@ -166,8 +140,8 @@ Messdienern füllen</string>
    <widget class="QPushButton" name="pushButton_add_cserver">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>482</y>
+      <x>1020</x>
+      <y>530</y>
       <width>141</width>
       <height>41</height>
      </rect>
@@ -179,8 +153,8 @@ Messdienern füllen</string>
    <widget class="QPushButton" name="pushButton_save">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>600</y>
+      <x>1090</x>
+      <y>700</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -192,7 +166,7 @@ Messdienern füllen</string>
    <widget class="QComboBox" name="comboBox_Grades">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>590</x>
       <y>440</y>
       <width>141</width>
       <height>22</height>
@@ -218,8 +192,8 @@ Messdienern füllen</string>
    <widget class="QPushButton" name="pushButton_remove_cservers">
     <property name="geometry">
      <rect>
-      <x>850</x>
-      <y>540</y>
+      <x>1020</x>
+      <y>590</y>
       <width>141</width>
       <height>41</height>
      </rect>
@@ -232,7 +206,7 @@ entfernen</string>
    <widget class="QCheckBox" name="checkBox_show_all_servers">
     <property name="geometry">
      <rect>
-      <x>940</x>
+      <x>1040</x>
       <y>430</y>
       <width>111</width>
       <height>31</height>
@@ -298,10 +272,97 @@ entfernen</string>
      </rect>
     </property>
     <property name="text">
-     <string>Ausgewählte Messe</string>
+     <string>Messdiener der ausgewählten  Messe</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget_server_selection">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>470</y>
+      <width>261</width>
+      <height>381</height>
+     </rect>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget_service_selection">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>260</y>
+      <width>311</width>
+      <height>601</height>
+     </rect>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::ExtendedSelection</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lable_selected_Service_2">
+    <property name="geometry">
+     <rect>
+      <x>-10</x>
+      <y>230</y>
+      <width>381</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Messe</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lable_selected_Service_3">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>430</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Messdiener</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="error_label">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>630</y>
+      <width>231</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string> </string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
@@ -310,7 +371,7 @@ entfernen</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1075</width>
+     <width>1197</width>
      <height>21</height>
     </rect>
    </property>
