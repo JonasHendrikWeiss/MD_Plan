@@ -9,6 +9,13 @@ List_MD = []
 List_Services = []
 statistic_list = []
 
+class Version:
+    def __init__(self):
+        self.ChurchServer_version = 1
+        self.ChurchService_version = 1
+        self.ChurchGroup_version = 1
+        self.Timespan_version = 1
+        self.Storage_version = 1
 
 class ChurchServer:
     def __init__(self, lastname, firstname, abbreviation, group="Null", unavailable=[]):
@@ -30,6 +37,7 @@ class ChurchServer:
         self.counter = 0
         # List of TimeSpan objects when a ChurchServer is not available
         self.unavailable = unavailable
+        # remember to change the version counter
 
     def add_unavailable(self, timespan):
         overlap_list = []
@@ -68,6 +76,7 @@ class ChurchService:
         self.date = day
         # time.strftime('%H:%M') outputs the Hour and minutes of a time
         self.description = f"Messe am {self.date.isoformat()} um {time.strftime('%H:%M')} \n mit {self.count} Messdienern"
+        # remember to change the version counter
 
 
 class TimeSpan:
@@ -76,6 +85,7 @@ class TimeSpan:
         self.end_date = end_date
         self.order_dates()
         self.description = f"{self.start_date} / {self.end_date}"
+        # remember to change the version counter
 
     def during_timespan(self, checked_date): # Takes a date and returns true if it is in the TimeSpan
         if self.start_date <= checked_date <= self.end_date:
@@ -117,6 +127,7 @@ class ChurchGroup():
         self.name = name
         self.members = list(members)
         self.start_year= start_year
+        # remember to change the version counter
 
     def add_churchserver(self, church_server):
         # adds a churchserver to the ChurchGroup and also adds the link back to the ChurchGroup in the Churchserver

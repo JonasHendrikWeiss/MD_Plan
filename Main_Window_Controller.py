@@ -4,7 +4,7 @@ from PySide6.QtUiTools import QUiLoader
 from PyQt6 import uic
 from PyQt6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QApplication
-
+from Storage_Operations import data_storage
 from Availability_Controller import Availability_Window
 from Assingment_Controller import Assignment_Window
 from Data_Management_Controller import Data_Management_Window

@@ -7,7 +7,7 @@ from PySide6.QtWidgets import QApplication, QListWidgetItem
 
 from Zuordnung import TimeSpan, ChurchService
 from Availabilty_Logic import add_grades_to_combobox, add_objects_listwidget, add_server_objects
-from Storage_Operations import pickle_storage, unpickle_storage, reinitalize_churchservers
+from Storage_Operations import pickle_storage, unpickle_storage, reinitalize_churchservers, data_storage
 from Assigment_Logic import fill_churchservice_list, handle_deletion_of_service, get_available_servers
 
 
@@ -24,6 +24,7 @@ class Assignment_Window():
     view = None
     start_date = None
     data = unpickle_storage()
+    pass
     # import_churchservers_from_dataframe(json_to_pdataframe(), data.list_churchservers)
 
     def __init__(self):
