@@ -143,7 +143,7 @@ class Assignment_Window():
             if selected_server is None:
                 pass  # stops the program from adding a None value to the list when nothing is selected
             elif selected_server in selected_service.current_churchservers:
-                pass  # stops the program from adding a person twice
+                return  # stops the program from adding a person twice
             selected_service.current_churchservers.append(selected_server)
         # Updates the view in order to correctly display the data
         Assignment_Window.update_service_selection(Assignment_Window)
