@@ -4,7 +4,7 @@ from PySide6.QtCore import QFile, QIODevice
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QListWidgetItem
 
-
+from Print_Handeling import print_to_docx
 from Zuordnung import TimeSpan, ChurchService
 from Availabilty_Logic import add_grades_to_combobox, add_objects_listwidget, add_server_objects
 from Storage_Operations import pickle_storage, unpickle_storage, reinitalize_churchservers, data_storage
@@ -21,6 +21,7 @@ def return_multi_selection(an_object):
 
 
 class Assignment_Window():
+    print_selection = None
     view = None
     start_date = None
     data = unpickle_storage()
@@ -63,6 +64,7 @@ class Assignment_Window():
         Assignment_Window.view.pushButton_fill_service.clicked.connect(Assignment_Window.test_connection)
         Assignment_Window.view.checkBox_show_all_servers.clicked.connect(
             Assignment_Window.fill_churchserver_selection_button)
+        Assignment_Window.view.pushButton_print.clicked.connect(Assignment_Window.open_print_dialog)
         # Fills the service selection button on startup
         fill_churchservice_list(Assignment_Window.data, Assignment_Window.view.listWidget_service_selection)
 
@@ -159,7 +161,34 @@ class Assignment_Window():
         # Updates the view in order to correctly display the data
         Assignment_Window.update_service_selection(Assignment_Window)
 
+
 # TODO Build a reset function to reset the UI after certain actions like deleting or adding church services
+
+    def open_print_dialog(self):
+        # Open the view of the dialog
+        ui_file_name = "Dialog_Print.ui"
+        ui_file = QFile(ui_file_name)
+        if not ui_file.open(QIODevice.ReadOnly):
+            print(f"Cannot open {ui_file_name}: {ui_file.errorString()}")
+            sys.exit(-1)
+        Assignment_Window.current_dialog = QUiLoader().load(ui_file)
+        print_dialog = Assignment_Window.current_dialog
+        ui_file.close()
+        print_dialog.show()
+        print_dialog.listWidget_print.clicked.connect(Assignment_Window.update_selecion)
+        fill_churchservice_list(Assignment_Window.data, print_dialog.listWidget_print)
+        print_dialog.accepted.connect(Assignment_Window.start_print)
+        print_dialog.rejected.connect(print("No"))
+        print_dialog.exec()
+
+
+    def update_selecion():
+        Assignment_Window.print_selection = return_multi_selection(Assignment_Window.current_dialog.listWidget_print)
+
+
+    def start_print():
+        print_to_docx(list_to_print=Assignment_Window.print_selection, name_output=Assignment_Window.current_dialog.lineEdit_Name.text())
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     b = Assignment_Window()
