@@ -1,5 +1,4 @@
 # the controller behind the availability page of the application
-from Storage_Operations import import_churchservers_from_dataframe, json_to_pdataframe
 import pandas
 from PySide6.QtWidgets import QListWidgetItem
 
@@ -10,7 +9,6 @@ def get_amount_of_elements(list):
 List_MD = []
 List_grades = []
 # import all the churchservers from the JSON file
-import_churchservers_from_dataframe(json_to_pdataframe(), List_MD)
 
 
 

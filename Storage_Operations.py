@@ -5,12 +5,12 @@ from datetime import datetime
 
 
 class data_storage():
-    def __init__(self, list_churchservers=[], list_services=[], list_groups=[]):
+    def __init__(self, list_churchservers=[], list_services=[], list_groups=[], version_input=Version()):
         self.list_churchservers = list_churchservers
         self.list_services = list_services
         self.list_groups = list_groups
         # A version counter in order to check if the object is up to date
-        self.version = Version()
+        self.version = version_input
 
     def delete_churchserver(self, churchserver):
         grade_server = churchserver.group
@@ -32,30 +32,6 @@ def unpickle_storage(dir_path=os.path.dirname(os.path.realpath(__file__)), filen
 
     return imported_data
 
-def json_to_pdataframe(dir_path=os.path.dirname(os.path.realpath(__file__)), filname="JSON"):
-    # returns a dataframe called pdataframe_json for further use in the program
-    pdataframe_json = pandas.read_json(path_or_buf=f"{dir_path}/{filname}", dtype=ChurchServer)
-    return pdataframe_json
-
-
-def import_churchservers_from_dataframe(pdataframe, server_list):
-    for server in range(0, pdataframe.size):
-        temp_list = []  # creates a temporary list for each server
-        if pdataframe.at[0, server]["unavailable"]:  # only uses ChurchServer which unavailable lists are not empty
-            temp_list = load_TimeSpan(pdataframe.at[0, server]["unavailable"])
-
-        current_cserver = ChurchServer(lastname=pdataframe.at[0, server]["lastname"],
-                                       firstname=pdataframe.at[0, server]["firstname"],
-                                       abbreviation=pdataframe.at[0, server]["abbreviation"],
-                                       unavailable = temp_list,
-                                       group= pdataframe.at[0, server]["group"])
-        server_list.append(current_cserver)
-
-
-def list_to_json(data_list, dir_path=os.path.dirname(os.path.realpath(__file__)),
-                 filename="JSON"):
-    pandas.DataFrame([data_list]).to_json(path_or_buf=f"{dir_path}/{filename}",)
-    # if the data increases in size look for double imports because if the dataframe is appended twice data doubles
 
 
 def load_TimeSpan(unavailable_list):
@@ -74,40 +50,60 @@ def load_TimeSpan(unavailable_list):
     return return_list
 
 
-def reinitalize_churchservers(list_of_cservers):
-    # Use only on version 2
+def reinitalize_churchservers(list_of_cservers, version):
     reinitalized_list = []
-    for c in range(len(list_of_cservers)):
-        selection = list_of_cservers[c]
-        reinitalized_list.append(ChurchServer(selection.lastname, selection.firstname, selection.abbreviation,
-                                              selection.group, selection.unavailable))
-        selection.group.members.remove(selection) # removes the person from the group so it isn't carried over
+    if version > 1:
+        for c in range(len(list_of_cservers)):
+            selection = list_of_cservers[c]
+            reinitalized_list.append(ChurchServer(lastname=selection.lastname, firstname=selection.firstname,
+                                                  abbreviation=selection.abbreviation, group=selection.group,
+                                                  unavailable=selection.unavailable, offset=selection.offset,
+                                                  group_leader=selection.group_leader))
+            selection.group.members.remove(selection) # removes the person from the group so it isn't carried over
+            # TODO remove the old and add the new object to all services
+    elif version == 1: # Needed because version one had no offset object
+        for c in range(len(list_of_cservers)):
+            selection = list_of_cservers[c]
+            reinitalized_list.append(ChurchServer(lastname=selection.lastname,firstname= selection.firstname,
+                                                  abbreviation= selection.abbreviation, group= selection.group,
+                                                  unavailable= selection.unavailable))
+            selection.group.members.remove(selection) # removes the person from the group so it isn't carried over
     return reinitalized_list
+    # When changing this remember to change the version change in storage
 
 
-def check_dataversions(storage):
-    sampleversion = Version()
-    if storage.version.ChurchServer_version != sampleversion.ChurchServer_version:
-        print("test_churchserver")
-        storage.list_churchservers = reinitalize_churchservers(storage.list_churchservers)
-    if storage.version.ChurchService_version != sampleversion.ChurchService_version:
+def update_objects(storage):
+    
+    sample_version = Version()
+    
+    if storage.version.ChurchServer_version != sample_version.ChurchServer_version:
+        storage.list_churchservers = reinitalize_churchservers(storage.list_churchservers,
+                                                               storage.version.ChurchServer_version)
+        # updates the version of the Churchservers that currently existing and then changes the version object
+        storage.version.ChurchServer_version = 1
+    if storage.version.ChurchService_version != sample_version.ChurchService_version:
         print("test_churchservice")
-    if storage.version.ChurchGroup_version != sampleversion.ChurchGroup_version:
+    if storage.version.ChurchGroup_version != sample_version.ChurchGroup_version:
         print("test_churchgroup")
-    if storage.version.Timespan_version != sampleversion.Timespan_version:
+    if storage.version.Timespan_version != sample_version.Timespan_version:
         print("test_timespan")
     # storage update needs to be done last because it also updates the version number
-    if storage.version.Storage_version != sampleversion.Storage_version:
+    if storage.version.Storage_version != sample_version.Storage_version:
         print("test_storage")
         storage = reinitalize_data_storage(storage)
-    #TODO fix this part, only  reinitalize church server and storage work
-
+    return storage
 
 
 
 
 def reinitalize_data_storage(storage):
     new_storage = data_storage(list_churchservers=storage.list_churchservers, list_groups=storage.list_groups,
-                 list_services=storage.list_services)
+                 list_services=storage.list_services, version_input=storage.version)
+    new_storage.version.Storage_version = 1
+    # updates only the storage version counter and not all version counters
     return new_storage
 
+
+if __name__ == "__main__":
+    update = update_objects(unpickle_storage())
+    pickle_storage(update)

@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QApplication, QListWidgetItem
 from PySide6.QtGui import QPainter
 from Zuordnung import TimeSpan
 from Availabilty_Logic import add_server_objects, remove_unavailable_days, add_grades_to_combobox
-from Storage_Operations import unpickle_storage, pickle_storage, list_to_json, data_storage
+from Storage_Operations import unpickle_storage, pickle_storage, data_storage
 from datetime import datetime
 
 
