@@ -1,10 +1,13 @@
 from Zuordnung import ChurchService
 from Storage_Operations import data_storage, unpickle_storage
 from docx import Document
+import os
 
 
 def print_to_docx(list_to_print, path_template ="Template_plan.docx", name_output="plan.docx"):
-    document = Document(str(path_template))
+    path = str(os.path.abspath(os.getcwd()))
+
+    document = Document(path.removesuffix("Skripts")+str(path_template))
     if len(document.tables) == 1:  # checks if there is only one table else it generates a new table
         table = document.tables[0]
     else:
@@ -32,7 +35,7 @@ def print_to_docx(list_to_print, path_template ="Template_plan.docx", name_outpu
             table.cell(number, 3).text = text_abbreviations
 
     # Saves the document with the given name
-    document.save(name_output)
+    document.save(path.removesuffix("Skripts")+name_output)
 
 teststorage = unpickle_storage()
 print_to_docx(teststorage.list_services)

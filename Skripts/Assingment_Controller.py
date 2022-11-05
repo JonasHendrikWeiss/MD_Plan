@@ -126,11 +126,11 @@ class Assignment_Window():
         Assignment_Window.update_service_selection(Assignment_Window)
 
     def update_service_selection(self):
-        selected_service = Assignment_Window.view.listWidget_service_selection.currentItem().data(0x0100)
-        # sets the label in order to show the correct description
-        if selected_service is None:
+        if Assignment_Window.view.listWidget_service_selection.currentItem() is None:
             Assignment_Window.view.lable_selected_Service.setText("Ausgewählte Messe")
             return
+        selected_service = Assignment_Window.view.listWidget_service_selection.currentItem().data(0x0100)
+        # sets the label in order to show the correct description
         Assignment_Window.view.lable_selected_Service.setText(selected_service.description)
 
         # adds all currently assigned ChurchServers to the listWidget
