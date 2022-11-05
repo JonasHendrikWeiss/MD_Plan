@@ -2,7 +2,7 @@ import sys
 
 from PySide6.QtCore import QFile, QIODevice
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QApplication, QListWidgetItem
+from PySide6.QtWidgets import QApplication, QListWidgetItem, QFileDialog
 
 from Print_Handeling import print_to_docx
 from Zuordnung import TimeSpan, ChurchService
@@ -187,7 +187,14 @@ class Assignment_Window():
 
 
     def start_print():
-        print_to_docx(list_to_print=Assignment_Window.print_selection, name_output=Assignment_Window.current_dialog.lineEdit_Name.text())
+        dialog = QFileDialog()
+        dialog.setFileMode(QFileDialog.Directory)
+        if dialog.exec():
+            directory_name = str(dialog.selectedFiles()[0])# converts the list to a string
+            print_to_docx(list_to_print=Assignment_Window.print_selection,
+                      name_output=Assignment_Window.current_dialog.lineEdit_Name.text(), directory_name =directory_name)
+        else:
+            print("finish the selection please")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
