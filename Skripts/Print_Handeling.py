@@ -23,7 +23,7 @@ def print_to_docx(list_to_print, path_template ="Template_plan.docx", name_outpu
         service = list_to_print[number] # selects each service one time
 
         table.cell(number, 0).text = service.date.strftime("%d.%m.%Y")  # Formatting the time objects in nice strings
-        table.cell(number, 1).text = service.time.strftime('%H:%M')
+        table.cell(number, 1).text = service.time.strftime('%H:%M Uhr')
 
         text_abbreviations = " "  # A text to which all abbreviations of all MDs are added
         for amount in range(len(service.current_churchservers)):
@@ -36,7 +36,8 @@ def print_to_docx(list_to_print, path_template ="Template_plan.docx", name_outpu
             table.cell(number, 3).text = text_abbreviations
 
     # Saves the document with the given name
-    document.save(directory_name+name_output)
+    print(f"{directory_name}/{name_output}")
+    document.save(f"{directory_name}/{name_output}")
 
 teststorage = unpickle_storage()
 print_to_docx(teststorage.list_services)

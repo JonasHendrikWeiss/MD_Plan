@@ -190,9 +190,10 @@ class Assignment_Window():
         dialog = QFileDialog()
         dialog.setFileMode(QFileDialog.Directory)
         if dialog.exec():
-            directory_name = str(dialog.selectedFiles()[0])# converts the list to a string
+            directory_name = str(dialog.selectedFiles()[0]) # converts the list to a string
             print_to_docx(list_to_print=Assignment_Window.print_selection,
-                      name_output=Assignment_Window.current_dialog.lineEdit_Name.text(), directory_name =directory_name)
+                          name_output=Assignment_Window.current_dialog.lineEdit_Name.text(),
+                          directory_name=directory_name)
         else:
             print("finish the selection please")
 
